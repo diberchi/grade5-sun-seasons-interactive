@@ -32,6 +32,91 @@
     overflow-x: hidden;
   }
 
+  
+  /* 課本專屬區塊樣式 */
+  .textbook-section {
+    margin-top: 24px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  .tb-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tb-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tb-badge {
+    background: rgba(56, 189, 248, 0.15);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .tb-para {
+    background: rgba(30, 41, 59, 0.7);
+    border-left: 4px solid #38bdf8;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: #f1f5f9;
+  }
+  .tb-para strong {
+    color: #fde047;
+  }
+  .tb-qa {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .tb-q-title {
+    font-weight: 800;
+    color: #fbbf24;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .tb-answer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(245, 158, 11, 0.3);
+    color: #cbd5e1;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+  .tb-tip {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #a7f3d0;
+    line-height: 1.7;
+  }
+
   /* 頂部導航 */
   header {
     background: rgba(10, 16, 29, 0.96);
@@ -440,6 +525,65 @@
         </div>
       </div>
     </div>
+  
+    <!-- 課本對照與精讀專區 (p.10 ~ p.15) -->
+    <div class="textbook-section">
+      <div class="tb-header">
+        <div class="tb-title">📖 1-1 翰林課本原文精讀與課堂提問 <span class="tb-badge">課本第 10 ～ 15 頁</span></div>
+        <div style="font-size: 0.9rem; color: #94a3b8;">符合 108 課綱自然領域教材完整對照</div>
+      </div>
+
+      <!-- 課本段落一 -->
+      <div class="tb-para">
+        <div style="font-weight: 800; color: #38bdf8; margin-bottom: 6px;">📌 課本 p.10~11【生活中的光和熱】</div>
+        白天有陽光照射，我們可以看清楚周遭的景物，感覺比較溫暖；到了夜晚沒有陽光，氣溫降低，四周變暗。自古以來，人們就順應著太陽的運行規律，<strong>「日出而作，日落而息」</strong>。太陽提供地球源源不絕的能量，讓萬物得以生生不息。
+      </div>
+
+      <!-- 課本段落二 -->
+      <div class="tb-para" style="border-left-color: #34d399;">
+        <div style="font-weight: 800; color: #34d399; margin-bottom: 6px;">📌 課本 p.12~13【太陽的光和熱對動植物與生活的影響】</div>
+        <strong>① 植物生長：</strong>植物葉片中的葉綠體能吸收太陽光能，利用水分與二氧化碳進行<strong>「光合作用」</strong>，製造葡萄糖養分並釋出氧氣，是地球食物鏈的基礎。<br>
+        <strong>② 人體健康：</strong>人體皮膚適度接受陽光照射（每日約 10~15 分鐘），可促進身體自行合成<strong>維生素 D</strong>，幫助腸道吸收鈣質，強化骨骼與牙齒發育。<br>
+        <strong>③ 生活應用：</strong>利用太陽的熱能加快水分<strong>「蒸發」</strong>，例如日晒製鹽（臺南七股鹽田將海水引進鹽田蒸發水分、結晶析出食鹽）、晒乾衣服、製作魚乾與柿餅等。
+      </div>
+
+      <!-- 課本段落三 -->
+      <div class="tb-para" style="border-left-color: #fbbf24;">
+        <div style="font-weight: 800; color: #fbbf24; margin-bottom: 6px;">📌 課本 p.14~15【太陽能在生活中的科技應用】</div>
+        <strong>① 光能轉電能：</strong>透過<strong>「太陽能光電板」</strong>（太陽能電池）直接將陽光轉變為電能，應用於太陽能路燈、計算機、庭園步道燈，甚至人造衛星與建築屋頂發電。<br>
+        <strong>② 熱能轉換：</strong>利用<strong>「太陽能熱水器」</strong>的黑色集熱板吸收太陽輻射熱，加熱循環水管中的水，供應家庭熱水。<br>
+        <strong>③ 永續發展：</strong>太陽能是不會枯竭、無空氣汙染的<strong>「綠色能源」</strong>。例如臺南沙崙智慧綠能科技示範場域，展示了太陽能樹與潔淨能源生活。
+      </div>
+
+      <!-- 課本討論提問 -->
+      <div style="margin-top: 20px;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #fbbf24; margin-bottom: 12px;">💬 課本「想一想」課堂提問與互動解答（點擊展開）：</div>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本想一想：如果沒有太陽的光和熱，地球會變成什麼樣子？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：如果失去太陽，地球表面將陷入一片黑暗與極度嚴寒，氣溫會降到零下上百度。植物無法進行光合作用而全數枯死，動物失去食物來源接連滅絕，地表水分全部結冰，整個生態系將全面崩潰。
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本討論：晒衣服、日晒製鹽主要是利用太陽的「光」還是「熱」？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：主要是利用太陽的<strong>「熱能」</strong>！熱能使水分子溫度上升，加速水分的<strong>蒸發</strong>過程。水變成水蒸氣散逸到空氣中後，衣服就會乾燥，而海水則會析出結晶的食鹽。
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本動動腦：太陽能發電相比火力發電，有什麼環保優點？有什麼限制？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：<br>
+            • <strong>優點</strong>：取之不盡、用之不竭，發電過程中不產生二氧化碳、廢氣或噪音，屬於潔淨綠能。<br>
+            • <strong>限制</strong>：容易受天候（陰雨天）、日夜影響（夜晚無法發電），且需要較大的土地面積裝設光電板與儲能設備。
+          </div>
+        </details>
+      </div>
+    </div>
+
   </section>
 
   <!-- TAB 2: 1-2 太陽的位置變化 -->
@@ -549,6 +693,80 @@
         </div>
       </div>
     </div>
+  
+    <!-- 課本對照與精讀專區 (p.16 ~ p.31) -->
+    <div class="textbook-section">
+      <div class="tb-header">
+        <div class="tb-title">📖 1-2 翰林課本原文精讀與探究實驗 <span class="tb-badge">課本第 16 ～ 31 頁</span></div>
+        <div style="font-size: 0.9rem; color: #94a3b8;">觀測儀器操作・一日軌跡・四季代表日完整收錄</div>
+      </div>
+
+      <!-- 課本段落一 -->
+      <div class="tb-para">
+        <div style="font-weight: 800; color: #38bdf8; margin-bottom: 6px;">📌 課本 p.16~18【太陽與影子的關係・日晷與實驗】</div>
+        在戶外陽光下走動，影子總是寸步不離。古代人很早就發現影子的方向和長短會隨時間改變，因而發明了利用日影計時的<strong>「日晷」</strong>與測定季節節氣的<strong>「圭表」</strong>。<br>
+        <strong>探究實作發現兩大核心規律：</strong><br>
+        ① <strong>方位相反：</strong>光源在東，影子在西；光源在南，影子在北。太陽方位與地物影子方位<strong>永遠相反</strong>。<br>
+        ② <strong>角度與長短反比：</strong>光源照射角度（高度角）愈高，影子愈短；照射角度愈低（斜射），影子愈長。
+      </div>
+
+      <!-- 課本段落二 -->
+      <div class="tb-para" style="border-left-color: #ef4444;">
+        <div style="font-weight: 800; color: #f87171; margin-bottom: 6px;">⚠️ 課本 p.19~21【安全觀測儀器操作規範】</div>
+        <strong>安全第一守則：</strong>絕對不可用眼睛、放大鏡或相機直視太陽，否則會造成視網膜永久性灼傷失明！觀測太陽必須透過<strong>「背對太陽看影子」</strong>間接量測。<br>
+        <strong>操作步驟四部曲：</strong><br>
+        1. <strong>校準指北針：</strong>平放方位盤與指北針，轉動盤身使指針紅色「N 極」對準盤面的正北「0°/北」。<br>
+        2. <strong>直立吸管：</strong>將細吸管（或鉛筆）垂直插在方位盤中心。<br>
+        3. <strong>讀取影子反向：</strong>若竿影落在西北方，則太陽方位即在<strong>東南方</strong>。<br>
+        4. <strong>測量高度角：</strong>手持高度角量測器，視線對準頂端吸管瞄準，讀取垂線鉛錘停留在量角器上的度數。
+      </div>
+
+      <!-- 課本段落三 -->
+      <div class="tb-para" style="border-left-color: #fbbf24;">
+        <div style="font-weight: 800; color: #fbbf24; margin-bottom: 6px;">📌 課本 p.22~23【一天中太陽位置變化・折線圖規律】</div>
+        在臺灣一天之中（清晨至傍晚）：<br>
+        • <strong>太陽方位：</strong>從「東方」升起，經過「南方天空（偏南）」，由「西方」落下。<br>
+        • <strong>高度角：</strong>清晨高度角小（影長），隨著時間接近中午逐漸升高，<strong>中午 12 點左右達到最高（影最短）</strong>，下午再逐漸降低。<br>
+        • <strong>折線圖特徵：</strong>曲線呈現倒 U 型對稱，最高點出現在正午時分。
+      </div>
+
+      <!-- 課本段落四 -->
+      <div class="tb-para" style="border-left-color: #34d399;">
+        <div style="font-weight: 800; color: #34d399; margin-bottom: 6px;">📌 課本 p.24~31【四季代表日太陽位置改變・天球圖解析】</div>
+        以臺灣（嘉義北回歸線附近）觀測為例：<br>
+        • <strong>春分（約3/21）、秋分（約9/23）：</strong>正東方升起、正西方落下。正午高度角約 66.5°，晝夜平分各 12 小時。<br>
+        • <strong>夏至（約6/21）：</strong><strong>東偏北</strong>升起、<strong>西偏北</strong>落下。正午高度角最高達 <strong>89°（幾乎在天頂直射）</strong>，影子最短，白晝最長約 13.5 小時。<br>
+        • <strong>冬至（約12/22）：</strong><strong>東偏南</strong>升起、<strong>西偏南</strong>落下。正午高度角最低僅 <strong>42°（強烈偏南斜射）</strong>，影子最長，白晝最短約 10.5 小時。<br>
+        • <strong>四季冷熱成因：</strong>夏天高度角大（接近直射），地面單位面積受熱集中，且日照時間長，氣溫最高；冬天高度角小（斜射），地面受熱分散，日照短，氣溫最低。（<strong>非距離遠近引起！</strong>）
+      </div>
+
+      <!-- 課本討論提問 -->
+      <div style="margin-top: 20px;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #fbbf24; margin-bottom: 12px;">💬 課本「想一想」課堂提問與迷思破解（點擊展開）：</div>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本迷思破解：正午 12 點時，太陽一定正好在頭頂正上方嗎？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：<strong>不一定！</strong>在臺灣大部分地區（北回歸線以北），除夏至當天正午太陽接近天頂之外，一年四季其他日子中午 12 點的太陽都位於<strong>「正南方偏高」</strong>的天空，而不是頭頂正上方！
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本討論：為什麼冬至正午的竿影會比夏至正午的竿影長很多？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：因為冬至正午太陽高度角只有約 42°，屬於低角度「斜射」，所以竿影會被拉得非常長；而夏至正午太陽高度角高達 89°，光線幾乎從頭頂垂直射下（直射），所以影子縮得極短。
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本動動腦：冬天日照時間短、夏天日照時間長，對農夫種植作物有何影響？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：夏季日照長且陽光充足，作物光合作用旺盛、生長迅速，多數蔬果生長週期短；冬季日照短、溫度低，部分作物生長緩慢或進入休眠，農夫會配合季節選擇耐寒作物（如高麗菜、蘿蔔）或搭設溫室補光。
+          </div>
+        </details>
+      </div>
+    </div>
+
   </section>
 
   <!-- TAB 3: 1-3 光的折射 -->
@@ -591,6 +809,72 @@
         </div>
       </div>
     </div>
+  
+    <!-- 課本對照與精讀專區 (p.32 ~ p.41) -->
+    <div class="textbook-section">
+      <div class="tb-header">
+        <div class="tb-title">📖 1-3 翰林課本原文精讀與折射實驗 <span class="tb-badge">課本第 32 ～ 41 頁</span></div>
+        <div style="font-size: 0.9rem; color: #94a3b8;">彩虹三條件・光的色散・介質折射・凸透鏡聚光成像</div>
+      </div>
+
+      <!-- 課本段落一 -->
+      <div class="tb-para">
+        <div style="font-weight: 800; color: #38bdf8; margin-bottom: 6px;">📌 課本 p.32~35【陽光是由不同色光組成嗎？・彩虹與色散】</div>
+        生活中的彩虹常出現在下雨過後的晴空、瀑布邊或噴水池旁。<br>
+        • <strong>噴水造虹三要件：</strong>① 晴朗充足的陽光、② 細密均勻的小水滴、③ <strong>觀察者必須「背對太陽」</strong>朝向陰暗背光處噴水。<br>
+        • <strong>牛頓三稜鏡色散實驗：</strong>看似純白透明的太陽光（白光），通過三稜鏡後，因為不同顏色的光在玻璃中的偏折程度不同，會被分散成<strong>紅、橙、黃、綠、藍、靛、紫</strong>等七色光譜。這證明太陽白光是由多種色光混合而成的「複合光」。
+      </div>
+
+      <!-- 課本段落二 -->
+      <div class="tb-para" style="border-left-color: #34d399;">
+        <div style="font-weight: 800; color: #34d399; margin-bottom: 6px;">📌 課本 p.36~37【光的行進路線會改變嗎？・介質與折射】</div>
+        • <strong>介質：</strong>光傳播時所穿過的透明物質（如空氣、水、玻璃等）稱為介質。<br>
+        • <strong>光折射現象：</strong>光在同一種均勻介質中保持<strong>直線行進</strong>；但當光從一種介質（如空氣）<strong>「斜斜射入」</strong>另一種介質（如水）時，在兩種介質的交界面上，行進路線會產生<strong>偏折</strong>，這就是<strong>「光的折射」</strong>。<br>
+        • <strong>生活實例解析：</strong><br>
+        1. 裝水玻璃杯裡的吸管看起來折斷了。<br>
+        2. 游泳池裡的人腿看起來變短了。<br>
+        3. 空碗底放硬幣原本看不到，倒入水後硬幣「浮」上來了。<br>
+        4. <strong>夜市撈金魚與叉魚：</strong>水中的魚看起來的位置比實際「更淺、偏高」（眼睛看見的是虛像），若要叉中魚，必須朝看到的魚的<strong>「下方」</strong>瞄準！
+      </div>
+
+      <!-- 課本段落三 -->
+      <div class="tb-para" style="border-left-color: #c084fc;">
+        <div style="font-weight: 800; color: #c084fc; margin-bottom: 6px;">📌 課本 p.38~41【放大鏡如何聚光和成像？・凸透鏡】</div>
+        • <strong>認識凸透鏡：</strong>放大鏡鏡片<strong>中間較厚、邊緣較薄</strong>，稱為「凸透鏡」。<br>
+        • <strong>聚光焦點實驗：</strong>陽光平行穿過凸透鏡時會產生折射，光線向內匯聚於一點，這個最亮、最小的光點稱為<strong>「焦點」</strong>。<br>
+        • ⚠️ <strong>聚光安全重要警告：</strong>焦點處溫度非常高，能迅速引燃紙張！<strong>嚴禁用手觸摸光點防燙傷，嚴禁長時間照紙張或枯草以防引發火災！</strong><br>
+        • <strong>凸透鏡成像兩大規律：</strong><br>
+        1. <strong>近看（物距小）：</strong>將放大鏡靠近報紙文字，會看到<strong>「正立、放大」</strong>的虛像。<br>
+        2. <strong>遠看（物距大）：</strong>將放大鏡拿在眼前看遠處的窗戶、黑板或景物，會看到<strong>「倒立、縮小」</strong>的實像！
+      </div>
+
+      <!-- 課本討論提問 -->
+      <div style="margin-top: 20px;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #fbbf24; margin-bottom: 12px;">💬 課本「想一想」課堂提問與生活安全（點擊展開）：</div>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本想一想：在陽光下噴水霧，為什麼一定要背對太陽才能看到彩虹？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：因為陽光必須從觀察者身後射入前方的小水滴，在水滴內部經過一次反射與兩次折射後，色光朝著後方（觀察者眼睛的方向）射出，所以只有背對太陽時，彩虹色光才能進入我們的眼睛。
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本安全警惕：為什麼看到溪邊水池看起來很淺，老師總叮嚀不可貿然跳水？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：因為<strong>光的折射效應</strong>，溪底反射的光從水射入空氣時發生偏折，使我們大腦看到的「水底虛像」位置比「真實水底」大幅提高變淺（看似只到膝蓋，實際可能深及胸膛或成人滅頂）！貿然跳水極易發生溺水危險。
+          </div>
+        </details>
+
+        <details class="tb-qa">
+          <summary class="tb-q-title">❓ 課本動動腦：光線從空氣垂直（90°）射入水中時，行進路線會偏折嗎？</summary>
+          <div class="tb-answer">
+            <strong>【課本參考解答】</strong>：<strong>不會偏折！</strong>折射發生的條件是光線<strong>「斜射」</strong>進入不同介質。如果是以 90° 垂直入射介質交界面，光線會直線穿透而不發生偏折（這是考試非常容易出題的陷阱觀念）！
+          </div>
+        </details>
+      </div>
+    </div>
+
   </section>
 
   <!-- TAB 4: ⭐ 單元重點整理（全單元考前精華大寶典） -->
