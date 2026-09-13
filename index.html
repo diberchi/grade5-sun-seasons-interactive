@@ -125,23 +125,43 @@
     background: rgba(10, 16, 29, 0.96);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 1000;
+    gap: 12px;
   }
-  .header-left { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-  .logo-icon { font-size: 2.2rem; animation: pulse 3s infinite; }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .logo-icon { font-size: 2rem; animation: pulse 3s infinite; }
   @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-  .logo-title { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-  .logo-subtitle { font-size: 0.8rem; color: var(--primary); background: rgba(56, 189, 248, 0.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; display: inline-block; margin-top: 2px; }
+  .logo-title { font-size: 1.15rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; white-space: nowrap; }
+  .logo-subtitle { font-size: 0.75rem; color: var(--primary); background: rgba(56, 189, 248, 0.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; display: inline-block; margin-top: 2px; white-space: nowrap; }
   
-  .nav-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; max-width: 62vw; }
-  .nav-tabs::-webkit-scrollbar { height: 4px; }
-  .nav-tabs::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 8px;
+    flex: 1 1 0;
+    min-width: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #38bdf8 rgba(255, 255, 255, 0.05);
+  }
+  .nav-tabs::-webkit-scrollbar { height: 6px; }
+  .nav-tabs::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 999px; }
+  .nav-tabs::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 999px; }
+  .nav-tabs::-webkit-scrollbar-thumb:hover { background: #0284c7; }
   .nav-tab {
     background: transparent;
     color: var(--text-muted);
@@ -156,6 +176,7 @@
     align-items: center;
     gap: 6px;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .nav-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
   .nav-tab.active {
@@ -176,7 +197,13 @@
     color: #fff;
   }
 
-  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .header-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 2;
+  }
   .action-btn {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--border);
@@ -369,8 +396,8 @@
   body.tv-mode {
     font-size: 1.35rem;
   }
-  body.tv-mode .logo-title { font-size: 1.45rem; }
-  body.tv-mode .nav-tab { font-size: 1.15rem; padding: 10px 18px; }
+  body.tv-mode .logo-title { font-size: 1.35rem; }
+  body.tv-mode .nav-tab { font-size: 1rem; padding: 8px 14px; }
   body.tv-mode .card-title { font-size: 1.7rem !important; }
   body.tv-mode .card-subtitle { font-size: 1.15rem !important; }
   body.tv-mode .tb-title { font-size: 1.85rem !important; }
@@ -395,8 +422,8 @@
     padding: 12px 22px !important;
   }
   body.tv-mode .action-btn {
-    font-size: 1.15rem !important;
-    padding: 10px 20px !important;
+    font-size: 0.95rem !important;
+    padding: 7px 12px !important;
   }
   body.tv-mode .rhyme-banner .rhyme-text {
     font-size: 1.65rem !important;
@@ -431,10 +458,15 @@
   /* 碎紙花 Canvas */
   #confettiCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
 
+  @media (max-width: 1200px) {
+    .logo-subtitle { display: none; }
+  }
+
   @media (max-width: 960px) {
     .grid-layout, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .options-grid { grid-template-columns: 1fr; }
-    .nav-tabs { max-width: 80vw; }
+    header { padding: 8px 12px; gap: 8px; }
+    .logo-title { font-size: 1rem; }
   }
 </style>
 </head>
@@ -451,7 +483,7 @@
     </div>
   </div>
 
-  <nav class="nav-tabs">
+  <nav class="nav-tabs" id="mainNavTabs">
     <button class="nav-tab active" onclick="switchTab('tab-home')">🏠 單元總覽</button>
     <button class="nav-tab" onclick="switchTab('tab-1-1')">🌱 1-1 太陽與生活</button>
     <button class="nav-tab" onclick="switchTab('tab-1-2')">🧭 1-2 太陽的位置變化</button>
@@ -463,7 +495,7 @@
   </nav>
 
   <div class="header-actions">
-    <button class="action-btn" id="tvModeBtn" onclick="toggleTvMode()" style="background: rgba(245, 158, 11, 0.25); border: 1px solid #fbbf24; color: #fde047; font-weight: 800;">📺 大電視投影字體：標準</button>
+    <button class="action-btn" id="tvModeBtn" onclick="toggleTvMode()" style="background: rgba(245, 158, 11, 0.25); border: 1px solid #fbbf24; color: #fde047; font-weight: 800;">📺 大字投影：標準</button>
     <button class="action-btn" onclick="openQrModal()" style="background: rgba(56, 189, 248, 0.15); border: 1px solid var(--primary); color: var(--primary); font-weight: 700;">📱 學生掃描</button>
     <button class="action-btn" id="soundBtn" onclick="toggleSound()">🔊 音效開</button>
     <button class="action-btn" onclick="toggleFullscreen()">⛶ 全螢幕</button>
@@ -656,23 +688,27 @@
 
   <!-- TAB 2: 1-2 太陽的位置變化 -->
   <section class="tab-pane" id="tab-1-2">
+    <!-- 第一區：課本標準天球與影長模擬器 -->
     <div class="grid-layout">
-      <div class="card" style="padding: 16px;">
+      <div class="card" style="padding: 18px;">
         <div class="card-header">
-          <div class="card-title">🌐 立體天球與竿影動態模擬器</div>
-          <div style="font-size: 0.9rem; color: var(--primary);">拖動時間滑桿，觀察太陽軌跡與影子變化</div>
+          <div class="card-title">🌐 課本標準四季天球與竿影動態模擬器</div>
+          <div style="font-size: 0.92rem; color: var(--primary);">完全依據國小自然課本透視模型繪製・含地平面、小人、小樹與影子投影</div>
         </div>
         
-        <div class="canvas-wrap">
+        <div class="canvas-wrap" style="height: 440px; position: relative;">
           <canvas id="sphereCanvas"></canvas>
         </div>
 
-        <div style="display: flex; gap: 12px; margin-top: 14px; align-items: center;">
+        <div style="display: flex; gap: 12px; margin-top: 14px; align-items: center; flex-wrap: wrap;">
           <button class="action-btn" id="playBtn" onclick="togglePlay()" style="background: #0284c7; font-weight: bold; padding: 9px 18px;">
             ▶️ 自動播放一日運行
           </button>
+          <button class="action-btn" id="toggleAllTracksBtn" onclick="toggleAllTracks()" style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fde047; font-weight: bold;">
+            ✨ 三軌對照模式：開啟
+          </button>
           <div style="color: var(--text-muted); font-size: 0.9rem;">
-            觀測基準：臺灣嘉義北迴歸線（23.5°N）
+            觀測基準：臺灣嘉義北回歸線（23.5°N）
           </div>
         </div>
       </div>
@@ -680,11 +716,11 @@
       <div class="card">
         <div class="card-title">⚙️ 觀測設定與即時儀表</div>
         
-        <div style="margin-top: 14px; margin-bottom: 8px; font-weight: 600; color: #cbd5e1;">選擇四季代表日：</div>
+        <div style="margin-top: 14px; margin-bottom: 8px; font-weight: 600; color: #cbd5e1;">選擇觀測季節（當前運行太陽）：</div>
         <div class="btn-group">
-          <button class="choice-btn active" id="btn-season-summer" onclick="setSeason('summer')">🍉 夏至<br><span style="font-size:0.75rem;">6/21</span></button>
-          <button class="choice-btn" id="btn-season-spring" onclick="setSeason('spring')">🌱 春/秋分<br><span style="font-size:0.75rem;">3/21, 9/23</span></button>
-          <button class="choice-btn" id="btn-season-winter" onclick="setSeason('winter')">❄️ 冬至<br><span style="font-size:0.75rem;">12/22</span></button>
+          <button class="choice-btn active" id="btn-season-summer" onclick="setSeason('summer')">🍉 夏至<br><span style="font-size:0.75rem;">6/21 (直射天頂)</span></button>
+          <button class="choice-btn" id="btn-season-spring" onclick="setSeason('spring')">🌱 春/秋分<br><span style="font-size:0.75rem;">3/21, 9/23 (正東升)</span></button>
+          <button class="choice-btn" id="btn-season-winter" onclick="setSeason('winter')">❄️ 冬至<br><span style="font-size:0.75rem;">12/22 (偏南斜射)</span></button>
         </div>
 
         <div class="slider-wrap">
@@ -692,7 +728,7 @@
             <span class="slider-title">日光觀測時間：</span>
             <span class="slider-val" id="timeDisplay">12:00</span>
           </div>
-          <input type="range" id="timeSlider" min="6" max="18" step="0.1" value="12" oninput="updateTime(this.value)">
+          <input type="range" id="timeSlider" min="5.5" max="18.5" step="0.1" value="12" oninput="updateTime(this.value)">
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
             <span>06:00 清晨</span>
             <span>12:00 正午</span>
@@ -706,23 +742,122 @@
             <div class="stat-value"><span id="altitudeVal">89</span><span class="stat-unit">°</span></div>
           </div>
           <div class="stat-box">
-            <div class="stat-name">操場旗桿影長</div>
-            <div class="stat-value"><span id="shadowLenVal">0.05</span><span class="stat-unit">倍竿高</span></div>
+            <div class="stat-name">操場小人影長</div>
+            <div class="stat-value"><span id="shadowLenVal">0.02</span><span class="stat-unit">倍身高</span></div>
           </div>
           <div class="stat-box">
             <div class="stat-name">太陽所在方位</div>
-            <div class="stat-value" id="sunDirVal" style="font-size: 1.15rem; color: #fef08a;">正南方</div>
+            <div class="stat-value" id="sunDirVal" style="font-size: 1.15rem; color: #fef08a;">天頂微偏南</div>
           </div>
           <div class="stat-box">
             <div class="stat-name">地面影子方位</div>
-            <div class="stat-value" id="shadowDirVal" style="font-size: 1.15rem; color: #67e8f9;">正北方</div>
+            <div class="stat-value" id="shadowDirVal" style="font-size: 1.15rem; color: #67e8f9;">立竿無影</div>
           </div>
         </div>
 
         <div class="rhyme-banner">
-          <div class="rhyme-title">📢 1-2 必背大口訣</div>
-          <div class="rhyme-text">春秋正東正西落，夏天偏北冬天南！</div>
-          <div style="font-size: 0.92rem; color: #cbd5e1; margin-top: 5px;">夏天高度角大影子短，冬天高度角小影子長！</div>
+          <div class="rhyme-title">📢 課本天球必記重點</div>
+          <div class="rhyme-text">春秋正東升正西落・夏天偏北冬天偏南！</div>
+          <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 6px; line-height: 1.6;">
+            • <strong>夏至正午：</strong>太陽直射北回歸線（接近天頂 90°），竿影最短（<strong>立竿無影</strong>）！<br>
+            • <strong>冬至正午：</strong>太陽向南偏斜（高度角僅約 42°），竿影指向正北方且<strong>最長</strong>！
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二區：一年四季太陽直射北回歸線移動與地球公轉模擬器 (全新重量級模組) -->
+    <div class="card" style="margin-top: 24px; padding: 22px; border: 2px solid rgba(56, 189, 248, 0.4); background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 16, 29, 0.98) 100%);">
+      <div class="card-header" style="border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 12px; margin-bottom: 16px;">
+        <div>
+          <div class="card-title" style="font-size: 1.5rem; color: #38bdf8;">🌍 一年四季太陽直射北回歸線移動與地球公轉模擬器</div>
+          <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 4px;">地軸傾斜 23.5° 公轉引起太陽直射點在「北回歸線 ↔ 赤道 ↔ 南回歸線」之間循環移動</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="action-btn" id="orbitPlayBtn" onclick="toggleOrbitPlay()" style="background: #0284c7; font-weight: 800; padding: 8px 16px;">
+            ▶️ 自動公轉運轉
+          </button>
+        </div>
+      </div>
+
+      <!-- 四季快速節氣切換按鈕 -->
+      <div style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
+        <button class="choice-btn active" id="btn-season-orbit-summer" onclick="setOrbitSeason('summer')" style="flex: 1; min-width: 140px;">
+          🍉 6/21 夏至<br><span style="font-size:0.8rem; color:#fde047;">直射北回歸線 (23.5°N) ⭐臺灣立竿無影</span>
+        </button>
+        <button class="choice-btn" id="btn-season-orbit-autumn" onclick="setOrbitSeason('autumn')" style="flex: 1; min-width: 140px;">
+          🍁 9/23 秋分<br><span style="font-size:0.8rem; color:#cbd5e1;">直射赤道 (0°) 晝夜平分</span>
+        </button>
+        <button class="choice-btn" id="btn-season-orbit-winter" onclick="setOrbitSeason('winter')" style="flex: 1; min-width: 140px;">
+          ❄️ 12/22 冬至<br><span style="font-size:0.8rem; color:#93c5fd;">直射南回歸線 (23.5°S) 臺灣斜射最冷</span>
+        </button>
+        <button class="choice-btn" id="btn-season-orbit-spring" onclick="setOrbitSeason('spring')" style="flex: 1; min-width: 140px;">
+          🌱 3/21 春分<br><span style="font-size:0.8rem; color:#86efac;">直射赤道 (0°) 晝夜平分</span>
+        </button>
+      </div>
+
+      <!-- 雙動畫畫布區 -->
+      <div class="grid-2" style="gap: 18px; align-items: stretch;">
+        <!-- 左邊：地球直射緯度與陽光入射剖面 -->
+        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-weight: 800; color: #fde047; font-size: 1.05rem;">🎯 太陽直射點緯度變化剖面</span>
+            <span id="subsolarBadge" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 2px 10px; border-radius: 999px; font-weight: 800; font-size: 0.85rem;">直射點：北回歸線 (23.5° N)</span>
+          </div>
+          <div class="canvas-wrap" style="height: 320px;">
+            <canvas id="tropicCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- 右邊：地球繞日公轉軌道 (視角) -->
+        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-weight: 800; color: #38bdf8; font-size: 1.05rem;">🔄 一年公轉軌道與地軸方向</span>
+            <span id="monthBadge" style="background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #7dd3fc; padding: 2px 10px; border-radius: 999px; font-weight: 800; font-size: 0.85rem;">6 月 21 日（夏至）</span>
+          </div>
+          <div class="canvas-wrap" style="height: 320px;">
+            <canvas id="orbitCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 月份與日期連續滑桿 -->
+      <div class="slider-wrap" style="margin-top: 18px;">
+        <div class="slider-head">
+          <span class="slider-title">📅 一年公轉進度（拖動觀察四季連續移動）：</span>
+          <span class="slider-val" id="orbitDateDisplay" style="color: #fde047; font-size: 1.25rem; font-weight: 800;">6 月 21 日 (夏至)</span>
+        </div>
+        <input type="range" id="orbitSlider" min="0" max="360" step="1" value="90" oninput="updateOrbitAngle(this.value)">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-top: 6px;">
+          <span>3/21 春分</span>
+          <span style="color: #fde047; font-weight: bold;">6/21 夏至 (直射北回歸線)</span>
+          <span>9/23 秋分</span>
+          <span style="color: #93c5fd; font-weight: bold;">12/22 冬至 (直射南回歸線)</span>
+          <span>3/21 春分</span>
+        </div>
+      </div>
+
+      <!-- 四大數據與生活觀察指標 -->
+      <div class="stat-grid" style="margin-top: 16px;">
+        <div class="stat-box" style="border-color: rgba(239, 68, 68, 0.3);">
+          <div class="stat-name">太陽直射緯度</div>
+          <div class="stat-value" style="color: #f87171;"><span id="tropicLatVal">23.5° N</span></div>
+          <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">夏至北回歸線・冬至南回歸線</div>
+        </div>
+        <div class="stat-box" style="border-color: rgba(251, 191, 36, 0.3);">
+          <div class="stat-name">臺灣嘉義正午高度角</div>
+          <div class="stat-value" style="color: #fde047;"><span id="chiayiAltVal">89.5</span><span class="stat-unit">°</span></div>
+          <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">公式：90° - |觀測緯度 - 直射緯度|</div>
+        </div>
+        <div class="stat-box" style="border-color: rgba(56, 189, 248, 0.3);">
+          <div class="stat-name">臺灣晝夜長短比例</div>
+          <div class="stat-value" style="color: #38bdf8; font-size: 1.15rem;" id="dayNightVal">晝長夜短 (晝13.5h)</div>
+          <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">夏至白晝最長・冬至白晝最短</div>
+        </div>
+        <div class="stat-box" style="border-color: rgba(52, 211, 153, 0.3);">
+          <div class="stat-name">嘉義北回歸線現象</div>
+          <div class="stat-value" style="color: #34d399; font-size: 1.15rem;" id="tropicPhenomenonVal">立竿無影・地表受熱極大</div>
+          <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">直射光斑集中・氣溫最高</div>
         </div>
       </div>
     </div>
@@ -1327,8 +1462,11 @@
     document.querySelectorAll(".tab-pane").forEach(pane => pane.classList.remove("active"));
     
     // 找到對應 tab 按鈕
-    const btn = Array.from(document.querySelectorAll(".nav-tab")).find(b => b.getAttribute("onclick").includes(tabId));
-    if (btn) btn.classList.add("active");
+    const btn = Array.from(document.querySelectorAll(".nav-tab")).find(b => b.getAttribute("onclick") && b.getAttribute("onclick").includes(tabId));
+    if (btn) {
+      btn.classList.add("active");
+      btn.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
+    }
     
     const targetPane = document.getElementById(tabId);
     if (targetPane) targetPane.classList.add("active");
@@ -1454,26 +1592,40 @@
     }
   }
 
-  // --- 1-2 天球模擬器 ---
+  // --- 1-2 課本標準四季天球與竿影動態模擬器 ---
   const sphereCanvas = document.getElementById("sphereCanvas");
   const sCtx = sphereCanvas.getContext("2d");
   let currentSeason = "summer";
   let currentTime = 12.0;
   let isPlaying = false;
   let playTimer = null;
+  let showAllTracks = true;
+
+  function toggleAllTracks() {
+    showAllTracks = !showAllTracks;
+    const btn = document.getElementById("toggleAllTracksBtn");
+    if (btn) {
+      btn.innerHTML = showAllTracks ? "✨ 三軌對照模式：開啟" : "🔍 單軌特寫模式";
+      btn.style.background = showAllTracks ? "rgba(251, 191, 36, 0.2)" : "rgba(255, 255, 255, 0.1)";
+    }
+    drawSphere();
+  }
 
   function resizeSphereCanvas() {
     const rect = sphereCanvas.parentElement.getBoundingClientRect();
     sphereCanvas.width = rect.width * window.devicePixelRatio;
     sphereCanvas.height = rect.height * window.devicePixelRatio;
+    sCtx.setTransform(1, 0, 0, 1, 0, 0);
     sCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
     drawSphere();
+    resizeOrbitCanvases();
   }
 
   function setSeason(season) {
     currentSeason = season;
     document.querySelectorAll("#btn-season-summer, #btn-season-spring, #btn-season-winter").forEach(b => b.classList.remove("active"));
-    document.getElementById("btn-season-" + season).classList.add("active");
+    const targetBtn = document.getElementById("btn-season-" + season);
+    if (targetBtn) targetBtn.classList.add("active");
     drawSphere();
     updateStats();
   }
@@ -1496,10 +1648,10 @@
       btn.style.background = "#ef4444";
       playTimer = setInterval(() => {
         currentTime += 0.1;
-        if (currentTime > 18) currentTime = 6;
+        if (currentTime > 18.2) currentTime = 5.8;
         document.getElementById("timeSlider").value = currentTime;
         updateTime(currentTime);
-      }, 70);
+      }, 60);
     } else {
       btn.textContent = "▶️ 自動播放一日運行";
       btn.style.background = "#0284c7";
@@ -1508,133 +1660,770 @@
   }
 
   function getSunAltitude(season, time) {
-    let maxAlt = 89;
+    let maxAlt = 89.5;
     let sunrise = 5.2, sunset = 18.8;
-    if (season === "spring") { maxAlt = 66; sunrise = 6.0; sunset = 18.0; }
-    if (season === "winter") { maxAlt = 42; sunrise = 6.6; sunset = 17.3; }
+    if (season === "spring") { maxAlt = 66.5; sunrise = 6.0; sunset = 18.0; }
+    if (season === "winter") { maxAlt = 42.5; sunrise = 6.6; sunset = 17.4; }
 
     if (time < sunrise || time > sunset) return 0;
     const norm = (time - 12) / ((sunset - sunrise) / 2);
     const cosVal = Math.cos(norm * (Math.PI / 2));
-    return Math.max(0, Math.round(maxAlt * cosVal));
+    return Math.max(0, parseFloat((maxAlt * cosVal).toFixed(1)));
   }
 
   function updateStats() {
     const alt = getSunAltitude(currentSeason, currentTime);
-    document.getElementById("altitudeVal").textContent = alt;
-    let shadowLen = (alt > 0) ? (1 / Math.tan(alt * Math.PI / 180)).toFixed(2) : "無影子";
+    document.getElementById("altitudeVal").textContent = Math.round(alt);
+    
+    let shadowLen = "0.00";
+    if (alt > 0) {
+      const rad = alt * Math.PI / 180;
+      const val = 1 / Math.tan(rad);
+      shadowLen = val < 0.05 ? "0.02 (極短)" : val.toFixed(2);
+    } else {
+      shadowLen = "夜間無影";
+    }
     document.getElementById("shadowLenVal").textContent = shadowLen;
 
-    if (currentTime < 11.5) {
-      document.getElementById("sunDirVal").textContent = currentSeason === "summer" ? "東偏北方" : (currentSeason === "winter" ? "東偏南方" : "正東方");
-      document.getElementById("shadowDirVal").textContent = currentSeason === "summer" ? "西偏南方" : (currentSeason === "winter" ? "西偏北方" : "正西方");
-    } else if (currentTime > 12.5) {
-      document.getElementById("sunDirVal").textContent = currentSeason === "summer" ? "西偏北方" : (currentSeason === "winter" ? "西偏南方" : "正西方");
-      document.getElementById("shadowDirVal").textContent = currentSeason === "summer" ? "東偏南方" : (currentSeason === "winter" ? "東偏北方" : "正東方");
+    if (currentTime < 11.4) {
+      document.getElementById("sunDirVal").textContent = currentSeason === "summer" ? "東偏北" : (currentSeason === "winter" ? "東偏南" : "正東方");
+      document.getElementById("shadowDirVal").textContent = currentSeason === "summer" ? "西偏南" : (currentSeason === "winter" ? "西偏北" : "正西方");
+    } else if (currentTime > 12.6) {
+      document.getElementById("sunDirVal").textContent = currentSeason === "summer" ? "西偏北" : (currentSeason === "winter" ? "西偏南" : "正西方");
+      document.getElementById("shadowDirVal").textContent = currentSeason === "summer" ? "東偏南" : (currentSeason === "winter" ? "東偏北" : "正東方");
     } else {
-      document.getElementById("sunDirVal").textContent = currentSeason === "summer" ? "正上方(偏南)" : "正南方";
-      document.getElementById("shadowDirVal").textContent = "正北方";
+      if (currentSeason === "summer") {
+        document.getElementById("sunDirVal").textContent = "天頂 (直射)";
+        document.getElementById("shadowDirVal").textContent = "立竿無影 ⭐";
+      } else {
+        document.getElementById("sunDirVal").textContent = "南方高空";
+        document.getElementById("shadowDirVal").textContent = "正北方 (影長)";
+      }
     }
   }
 
+  // 輔助函式：畫帶有箭頭的曲線
+  function drawArrowOnCurve(ctx, x, y, angle, color) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-9, -5);
+    ctx.lineTo(-7, 0);
+    ctx.lineTo(-9, 5);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // 繪製課本可愛樹木
+  function drawTree(ctx, x, y, scale = 1) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+    // 樹幹
+    ctx.fillStyle = "#8d5b4c";
+    ctx.fillRect(-2.5, -4, 5, 8);
+    // 樹冠
+    ctx.beginPath();
+    ctx.fillStyle = "#15803d";
+    ctx.arc(0, -12, 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "#22c55e";
+    ctx.arc(-4, -10, 7, 0, Math.PI * 2);
+    ctx.arc(4, -10, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // 繪製中心小人
+  function drawPerson(ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    // 頭部
+    ctx.fillStyle = "#0f172a";
+    ctx.beginPath();
+    ctx.arc(0, -25, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    // 身體
+    ctx.lineWidth = 3.5;
+    ctx.strokeStyle = "#0f172a";
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(0, -20);
+    ctx.lineTo(0, -8);
+    ctx.stroke();
+    // 雙手
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(-6, -15);
+    ctx.lineTo(6, -15);
+    ctx.stroke();
+    // 雙腳
+    ctx.beginPath();
+    ctx.moveTo(0, -8);
+    ctx.lineTo(-4, 0);
+    ctx.moveTo(0, -8);
+    ctx.lineTo(4, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 核心：課本標準天球繪製
   function drawSphere() {
     const w = sphereCanvas.parentElement.getBoundingClientRect().width;
     const h = 440;
     sCtx.clearRect(0, 0, w, h);
 
     const cx = w / 2;
-    const cy = h * 0.72;
-    const rx = Math.min(w * 0.42, 230);
-    const ry = 75;
-    const sphereR = rx;
+    const cy = h * 0.54;
+    const R = Math.min(w * 0.38, 175);
+    const rx = R;
+    const ry = R * 0.28;
 
-    // 地面橢圓
+    // 1. 下半球（地底空間：淺藍色半透明）
+    sCtx.beginPath();
+    sCtx.arc(cx, cy, R, 0, Math.PI, false);
+    sCtx.fillStyle = "rgba(96, 165, 250, 0.38)";
+    sCtx.fill();
+    sCtx.lineWidth = 1.8;
+    sCtx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    sCtx.stroke();
+
+    // 2. 上半球（透明天球邊界）
+    sCtx.beginPath();
+    sCtx.arc(cx, cy, R, Math.PI, 0, false);
+    const skyGrad = sCtx.createRadialGradient(cx, cy - R * 0.5, 10, cx, cy - R * 0.5, R);
+    skyGrad.addColorStop(0, "rgba(56, 189, 248, 0.12)");
+    skyGrad.addColorStop(1, "rgba(15, 23, 42, 0.05)");
+    sCtx.fillStyle = skyGrad;
+    sCtx.fill();
+    sCtx.lineWidth = 1.8;
+    sCtx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+    sCtx.stroke();
+
+    // 3. 地平面（課本黃褐色圓盤）
     sCtx.beginPath();
     sCtx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-    sCtx.fillStyle = "rgba(30, 41, 59, 0.9)";
+    sCtx.fillStyle = "#c89b6b"; // 課本原版黃褐色
     sCtx.fill();
-    sCtx.lineWidth = 2;
-    sCtx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+    sCtx.lineWidth = 2.2;
+    sCtx.strokeStyle = "#eab308";
     sCtx.stroke();
 
-    sCtx.fillStyle = "#94a3b8";
-    sCtx.font = "bold 14px sans-serif";
-    sCtx.textAlign = "center";
-    sCtx.fillText("東 (E)", cx - rx - 20, cy + 5);
-    sCtx.fillText("西 (W)", cx + rx + 20, cy + 5);
-    sCtx.fillText("南 (S)", cx, cy + ry + 20);
-    sCtx.fillText("北 (N)", cx, cy - ry - 10);
-
-    // 天球網格
+    // 4. 黃色貫穿軸線（北 - 南）
     sCtx.beginPath();
-    sCtx.arc(cx, cy, sphereR, Math.PI, 0, false);
-    sCtx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-    sCtx.lineWidth = 2;
-    sCtx.setLineDash([4, 4]);
+    sCtx.moveTo(cx - rx, cy);
+    sCtx.lineTo(cx + rx, cy);
+    sCtx.lineWidth = 2.2;
+    sCtx.strokeStyle = "#facc15";
     sCtx.stroke();
-    sCtx.setLineDash([]);
 
-    const drawOrbit = (seasonType, color, isCurrent) => {
-      sCtx.beginPath();
-      sCtx.strokeStyle = color;
-      sCtx.lineWidth = isCurrent ? 4 : 1.5;
-      let yOffset = -sphereR * 0.92, xSkew = -15;
-      if (seasonType === "spring") { yOffset = -sphereR * 0.68; xSkew = 0; }
-      if (seasonType === "winter") { yOffset = -sphereR * 0.45; xSkew = 20; }
+    // 東 - 西 輔助線
+    sCtx.beginPath();
+    sCtx.moveTo(cx, cy - ry);
+    sCtx.lineTo(cx, cy + ry);
+    sCtx.lineWidth = 1.2;
+    sCtx.strokeStyle = "rgba(250, 204, 21, 0.6)";
+    sCtx.stroke();
 
-      sCtx.moveTo(cx - rx * 0.95, cy);
-      sCtx.quadraticCurveTo(cx + xSkew, cy + yOffset, cx + rx * 0.95, cy);
-      sCtx.stroke();
+    // 5. 課本方位文字標示
+    sCtx.font = "bold 18px sans-serif";
+    sCtx.fillStyle = "#ffffff";
+    sCtx.textAlign = "center";
+    sCtx.textBaseline = "middle";
+
+    // 北 (左端)
+    sCtx.fillText("北", cx - rx - 24, cy);
+    // 南 (右端)
+    sCtx.fillText("南", cx + rx + 24, cy);
+    // 東 (內側後方)
+    sCtx.fillText("東", cx - 22, cy - ry + 12);
+    // 西 (迎面前方)
+    sCtx.fillText("西", cx + 22, cy + ry + 14);
+
+    // 天頂 (正上方)
+    sCtx.fillStyle = "#fef08a";
+    sCtx.font = "bold 21px sans-serif";
+    sCtx.fillText("天頂", cx, cy - R - 14);
+    // 天頂標記小圓
+    sCtx.beginPath();
+    sCtx.arc(cx, cy - R, 4, 0, Math.PI * 2);
+    sCtx.fillStyle = "#fde047";
+    sCtx.fill();
+
+    // 地平面標籤 (左下側)
+    sCtx.fillStyle = "#1e293b";
+    sCtx.font = "bold 18px sans-serif";
+    sCtx.fillText("地平面", cx - rx * 0.42, cy + ry * 1.5);
+
+    // 6. 天北極指向線 (西北傾斜紅色虛線)
+    const polarX = cx - R * 0.88;
+    const polarY = cy - R * 0.38;
+    sCtx.save();
+    sCtx.beginPath();
+    sCtx.setLineDash([5, 4]);
+    sCtx.moveTo(cx, cy);
+    sCtx.lineTo(polarX, polarY);
+    sCtx.lineWidth = 2;
+    sCtx.strokeStyle = "#ef4444";
+    sCtx.stroke();
+    sCtx.restore();
+
+    sCtx.fillStyle = "#f87171";
+    sCtx.font = "bold 18px sans-serif";
+    sCtx.textAlign = "right";
+    sCtx.fillText("天北極", polarX - 10, polarY - 2);
+    sCtx.textAlign = "center";
+
+    // 7. 課本可愛小樹造景
+    drawTree(sCtx, cx - rx * 0.45, cy - ry * 0.38, 0.9);
+    drawTree(sCtx, cx - rx * 0.35, cy - ry * 0.28, 0.75);
+    drawTree(sCtx, cx + rx * 0.65, cy - ry * 0.32, 0.85);
+
+    // 8. 定義四季天球幾何軌跡數據
+    const tracks = {
+      summer: {
+        name: "夏至",
+        rise: { x: cx - rx * 0.28, y: cy - ry * 0.72 },
+        noon: { x: cx - 6, y: cy - R * 0.95 },
+        set:  { x: cx - rx * 0.25, y: cy + ry * 0.72 },
+        underCtrl: { x: cx - rx * 0.6, y: cy + R * 0.92 },
+        color: "#ea580c",
+        sunColor: "#f59e0b"
+      },
+      spring: {
+        name: "春分、秋分",
+        rise: { x: cx, y: cy - ry },
+        noon: { x: cx + rx * 0.35, y: cy - R * 0.74 },
+        set:  { x: cx, y: cy + ry },
+        underCtrl: { x: cx - rx * 0.1, y: cy + R * 0.92 },
+        color: "#dc2626",
+        sunColor: "#f59e0b"
+      },
+      winter: {
+        name: "冬至",
+        rise: { x: cx + rx * 0.28, y: cy - ry * 0.72 },
+        noon: { x: cx + rx * 0.64, y: cy - R * 0.46 },
+        set:  { x: cx + rx * 0.28, y: cy + ry * 0.72 },
+        underCtrl: { x: cx + rx * 0.35, y: cy + R * 0.88 },
+        color: "#f97316",
+        sunColor: "#f59e0b"
+      }
     };
 
-    drawOrbit("winter", "rgba(56, 189, 248, 0.5)", currentSeason === "winter");
-    drawOrbit("spring", "rgba(52, 211, 153, 0.5)", currentSeason === "spring");
-    drawOrbit("summer", "rgba(248, 113, 113, 0.7)", currentSeason === "summer");
+    // 9. 繪製三條四季軌跡 (地上紅色 + 地下白色虛線)
+    const seasonList = ["winter", "spring", "summer"];
+    seasonList.forEach(key => {
+      const tr = tracks[key];
+      const isSelected = (key === currentSeason);
+      if (!showAllTracks && !isSelected) return;
 
-    let yOffset = -sphereR * 0.92, xSkew = -15;
-    if (currentSeason === "spring") { yOffset = -sphereR * 0.68; xSkew = 0; }
-    if (currentSeason === "winter") { yOffset = -sphereR * 0.45; xSkew = 20; }
+      // (A) 地下軌跡：白色透明弧線
+      sCtx.save();
+      sCtx.beginPath();
+      sCtx.moveTo(tr.set.x, tr.set.y);
+      sCtx.quadraticCurveTo(tr.underCtrl.x, tr.underCtrl.y, tr.rise.x, tr.rise.y);
+      sCtx.strokeStyle = "rgba(255, 255, 255, 0.75)";
+      sCtx.lineWidth = 3.5;
+      sCtx.stroke();
 
-    const tNorm = (currentTime - 6) / 12;
-    const p0 = { x: cx - rx * 0.95, y: cy };
-    const p1 = { x: cx + xSkew, y: cy + yOffset };
-    const p2 = { x: cx + rx * 0.95, y: cy };
+      // 地下箭頭 (向上循環)
+      drawArrowOnCurve(sCtx, (tr.set.x + tr.underCtrl.x) / 2, (tr.set.y + tr.underCtrl.y) / 2, -Math.PI / 1.6, "rgba(255, 255, 255, 0.9)");
+      sCtx.restore();
 
-    const sunX = (1 - tNorm) * (1 - tNorm) * p0.x + 2 * (1 - tNorm) * tNorm * p1.x + tNorm * tNorm * p2.x;
-    const sunY = (1 - tNorm) * (1 - tNorm) * p0.y + 2 * (1 - tNorm) * tNorm * p1.y + tNorm * tNorm * p2.y;
+      // (B) 地上軌跡：鮮明橙紅色弧線
+      sCtx.save();
+      sCtx.beginPath();
+      sCtx.moveTo(tr.rise.x, tr.rise.y);
+      // 兩段二次貝茲曲線連成拱形
+      const ctrl1X = (tr.rise.x + tr.noon.x) / 2 - 10;
+      const ctrl1Y = tr.noon.y;
+      const ctrl2X = (tr.noon.x + tr.set.x) / 2 + 10;
+      const ctrl2Y = tr.noon.y;
+      sCtx.bezierCurveTo(ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, tr.set.x, tr.set.y);
+      sCtx.strokeStyle = tr.color;
+      sCtx.lineWidth = isSelected ? 4.5 : 3.2;
+      sCtx.stroke();
 
-    sCtx.beginPath();
-    sCtx.arc(sunX, sunY, 13, 0, Math.PI * 2);
-    sCtx.fillStyle = "#fbbf24";
-    sCtx.shadowColor = "#f59e0b";
-    sCtx.shadowBlur = 20;
-    sCtx.fill();
-    sCtx.shadowBlur = 0;
+      // 地上箭頭 (指向西方落下)
+      const arrowX = (tr.noon.x + tr.set.x) / 2 + 12;
+      const arrowY = (tr.noon.y + tr.set.y) / 2 + 8;
+      drawArrowOnCurve(sCtx, arrowX, arrowY, Math.PI / 2.3, tr.color);
 
-    const poleH = 45;
-    sCtx.beginPath();
-    sCtx.moveTo(cx, cy);
-    sCtx.lineTo(cx, cy - poleH);
-    sCtx.lineWidth = 4;
-    sCtx.strokeStyle = "#f8fafc";
-    sCtx.stroke();
+      // (C) 軌跡最高點之太陽圖示與文字標記 (完全如同課本)
+      sCtx.beginPath();
+      sCtx.arc(tr.noon.x, tr.noon.y, 8, 0, Math.PI * 2);
+      sCtx.fillStyle = "#facc15";
+      sCtx.fill();
+      sCtx.lineWidth = 2;
+      sCtx.strokeStyle = "#ea580c";
+      sCtx.stroke();
 
+      // 標註文字
+      sCtx.font = "bold 17px sans-serif";
+      sCtx.fillStyle = "#ffffff";
+      sCtx.textAlign = "left";
+      sCtx.fillText(tr.name, tr.noon.x + 12, tr.noon.y + 4);
+
+      sCtx.restore();
+    });
+
+    // 10. 計算當前時間太陽在軌跡上的動態座標
+    const curTr = tracks[currentSeason];
+    let tNorm = (currentTime - 6.0) / 12.0; // 0 (早) ~ 1 (晚)
+    tNorm = Math.max(0, Math.min(1, tNorm));
+
+    // 三次貝茲求值
+    const p0 = curTr.rise;
+    const p3 = curTr.set;
+    const p1 = { x: (curTr.rise.x + curTr.noon.x) / 2 - 10, y: curTr.noon.y };
+    const p2 = { x: (curTr.noon.x + curTr.set.x) / 2 + 10, y: curTr.noon.y };
+
+    const u = 1 - tNorm;
+    const sunX = u*u*u*p0.x + 3*u*u*tNorm*p1.x + 3*u*tNorm*tNorm*p2.x + tNorm*tNorm*tNorm*p3.x;
+    const sunY = u*u*u*p0.y + 3*u*u*tNorm*p1.y + 3*u*tNorm*tNorm*p2.y + tNorm*tNorm*tNorm*p3.y;
+
+    // 11. 中心小人與真實影子投影 (關鍵核心)
     const alt = getSunAltitude(currentSeason, currentTime);
     if (alt > 0) {
       const rad = alt * Math.PI / 180;
-      const shLen = Math.min((poleH / Math.tan(rad)), 170);
-      const angleOnGround = Math.atan2((currentTime - 12), 4);
-      const shadowEndX = cx + Math.sin(angleOnGround) * shLen * 1.5;
-      const shadowEndY = cy - Math.cos(angleOnGround) * (shLen * 0.5);
+      // 影長與太陽高度角嚴格成反比
+      const poleH = 26; // 小人高
+      const groundShadowLen = Math.min(poleH / Math.tan(rad), 95);
 
+      // 地面角度計算：太陽在東南，影在西北
+      const timeFactor = (currentTime - 12) / 6; // -1 (早晨東) ~ +1 (傍晚西)
+      let shAngle = Math.PI / 2; // 預設朝正北偏 (正午影子向北)
+      if (currentSeason === "summer") shAngle = Math.PI / 2 + timeFactor * 0.9;
+      if (currentSeason === "spring") shAngle = Math.PI / 2 + timeFactor * 1.1;
+      if (currentSeason === "winter") shAngle = Math.PI / 2 + timeFactor * 1.3;
+
+      const shadowEndX = cx - timeFactor * groundShadowLen * 1.3;
+      const shadowEndY = cy - Math.sin(shAngle) * (groundShadowLen * 0.45);
+
+      sCtx.save();
+      if (currentSeason === "summer" && Math.abs(currentTime - 12) < 0.35) {
+        // 夏至正午：立竿無影！腳底只有一個小暗圓
+        sCtx.beginPath();
+        sCtx.ellipse(cx, cy + 1, 6, 3, 0, 0, Math.PI * 2);
+        sCtx.fillStyle = "rgba(15, 23, 42, 0.85)";
+        sCtx.fill();
+
+        // 標註「立竿無影！」金色特效
+        sCtx.font = "bold 15px sans-serif";
+        sCtx.fillStyle = "#fde047";
+        sCtx.textAlign = "center";
+        sCtx.fillText("⭐ 立竿無影！", cx, cy + 22);
+      } else {
+        // 一般影長投影
+        sCtx.beginPath();
+        sCtx.moveTo(cx, cy);
+        sCtx.lineTo(shadowEndX, shadowEndY);
+        sCtx.lineWidth = 5.5;
+        sCtx.strokeStyle = "rgba(15, 23, 42, 0.78)";
+        sCtx.lineCap = "round";
+        sCtx.stroke();
+      }
+      sCtx.restore();
+
+      // 太陽至小人的金黃光束
+      sCtx.save();
       sCtx.beginPath();
-      sCtx.moveTo(cx, cy);
-      sCtx.lineTo(shadowEndX, shadowEndY);
-      sCtx.lineWidth = 6;
-      sCtx.strokeStyle = "rgba(15, 23, 42, 0.85)";
-      sCtx.lineCap = "round";
+      sCtx.moveTo(sunX, sunY);
+      sCtx.lineTo(cx, cy - 20);
+      sCtx.strokeStyle = "rgba(251, 191, 36, 0.25)";
+      sCtx.lineWidth = 1.8;
       sCtx.stroke();
+      sCtx.restore();
     }
+
+    // 繪製中心小人
+    drawPerson(sCtx, cx, cy);
+
+    // 12. 繪製當前時間運行的發光大太陽
+    sCtx.save();
+    sCtx.beginPath();
+    sCtx.arc(sunX, sunY, 13, 0, Math.PI * 2);
+    sCtx.fillStyle = "#fde047";
+    sCtx.shadowColor = "#f59e0b";
+    sCtx.shadowBlur = 18;
+    sCtx.fill();
+    sCtx.lineWidth = 2.5;
+    sCtx.strokeStyle = "#ea580c";
+    sCtx.stroke();
+    sCtx.restore();
+  }
+
+  // ==========================================
+  // --- 一年四季太陽直射北回歸線移動與地球公轉模擬器 ---
+  // ==========================================
+  const tropicCanvas = document.getElementById("tropicCanvas");
+  const tCtx = tropicCanvas ? tropicCanvas.getContext("2d") : null;
+
+  const orbitCanvas = document.getElementById("orbitCanvas");
+  const oCtx = orbitCanvas ? orbitCanvas.getContext("2d") : null;
+
+  let orbitAngle = 90; // 0=春分, 90=夏至(直射北回歸線), 180=秋分, 270=冬至
+  let isOrbitPlaying = false;
+  let orbitTimer = null;
+
+  function resizeOrbitCanvases() {
+    if (tropicCanvas && tropicCanvas.parentElement) {
+      const rect = tropicCanvas.parentElement.getBoundingClientRect();
+      tropicCanvas.width = rect.width * window.devicePixelRatio;
+      tropicCanvas.height = 320 * window.devicePixelRatio;
+      tCtx.setTransform(1, 0, 0, 1, 0, 0);
+      tCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    if (orbitCanvas && orbitCanvas.parentElement) {
+      const rect = orbitCanvas.parentElement.getBoundingClientRect();
+      orbitCanvas.width = rect.width * window.devicePixelRatio;
+      orbitCanvas.height = 320 * window.devicePixelRatio;
+      oCtx.setTransform(1, 0, 0, 1, 0, 0);
+      oCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    drawTropicAndOrbit();
+  }
+
+  function setOrbitSeason(season) {
+    if (season === "summer") orbitAngle = 90;
+    if (season === "autumn") orbitAngle = 180;
+    if (season === "winter") orbitAngle = 270;
+    if (season === "spring") orbitAngle = 0;
+    document.getElementById("orbitSlider").value = orbitAngle;
+    updateOrbitAngle(orbitAngle);
+  }
+
+  function updateOrbitAngle(val) {
+    orbitAngle = parseFloat(val);
+    document.querySelectorAll("#btn-season-orbit-summer, #btn-season-orbit-autumn, #btn-season-orbit-winter, #btn-season-orbit-spring")
+      .forEach(b => b.classList.remove("active"));
+
+    // 計算直射緯度 (-23.5° ~ +23.5°)
+    const subsolarLat = 23.5 * Math.sin(orbitAngle * Math.PI / 180);
+    const chiayiAlt = Math.max(0, 90 - Math.abs(23.5 - subsolarLat)).toFixed(1);
+
+    // 更新各項指標
+    document.getElementById("tropicLatVal").textContent = 
+      (subsolarLat >= 0 ? subsolarLat.toFixed(1) + "° N" : Math.abs(subsolarLat).toFixed(1) + "° S");
+    document.getElementById("chiayiAltVal").textContent = chiayiAlt;
+
+    let dateStr = "6 月 21 日 (夏至)";
+    let badgeText = "直射點：北回歸線 (23.5° N)";
+    let dayNightStr = "晝長夜短 (白晝約13.5h)";
+    let phenomenonStr = "立竿無影・地表受熱極大";
+
+    if (Math.abs(orbitAngle - 90) < 15) {
+      dateStr = "6 月 21 日 (夏至)";
+      badgeText = "🎯 直射北回歸線 (23.5° N)";
+      dayNightStr = "白晝最長・黑夜最短 (白晝約13.5h)";
+      phenomenonStr = "⭐ 臺灣嘉義正午「立竿無影」！氣溫最高";
+      const b = document.getElementById("btn-season-orbit-summer");
+      if (b) b.classList.add("active");
+    } else if (Math.abs(orbitAngle - 180) < 15) {
+      dateStr = "9 月 23 日 (秋分)";
+      badgeText = "🎯 直射赤道 (0°)";
+      dayNightStr = "全球晝夜平分 (各12小時)";
+      phenomenonStr = "正東升正西落・氣候轉涼";
+      const b = document.getElementById("btn-season-orbit-autumn");
+      if (b) b.classList.add("active");
+    } else if (Math.abs(orbitAngle - 270) < 15) {
+      dateStr = "12 月 22 日 (冬至)";
+      badgeText = "🎯 直射南回歸線 (23.5° S)";
+      dayNightStr = "白晝最短・黑夜最長 (白晝約10.5h)";
+      phenomenonStr = "臺灣強烈斜射・竿影最長・氣溫最冷";
+      const b = document.getElementById("btn-season-orbit-winter");
+      if (b) b.classList.add("active");
+    } else if (orbitAngle < 15 || orbitAngle > 345) {
+      dateStr = "3 月 21 日 (春分)";
+      badgeText = "🎯 直射赤道 (0°)";
+      dayNightStr = "全球晝夜平分 (各12小時)";
+      phenomenonStr = "正東升正西落・春暖花開";
+      const b = document.getElementById("btn-season-orbit-spring");
+      if (b) b.classList.add("active");
+    } else {
+      dateStr = "公轉度數: " + Math.round(orbitAngle) + "°";
+      badgeText = "直射緯度：" + (subsolarLat >= 0 ? subsolarLat.toFixed(1) + "° N" : Math.abs(subsolarLat).toFixed(1) + "° S");
+      dayNightStr = subsolarLat > 0 ? "北半球晝長夜短" : "北半球晝短夜長";
+      phenomenonStr = subsolarLat > 15 ? "臺灣高度角大・影子偏短" : "臺灣高度角偏低・影子偏長";
+    }
+
+    document.getElementById("orbitDateDisplay").textContent = dateStr;
+    document.getElementById("monthBadge").textContent = dateStr;
+    document.getElementById("subsolarBadge").textContent = badgeText;
+    document.getElementById("dayNightVal").textContent = dayNightStr;
+    document.getElementById("tropicPhenomenonVal").textContent = phenomenonStr;
+
+    drawTropicAndOrbit();
+  }
+
+  function toggleOrbitPlay() {
+    isOrbitPlaying = !isOrbitPlaying;
+    const btn = document.getElementById("orbitPlayBtn");
+    if (isOrbitPlaying) {
+      btn.textContent = "⏸️ 暫停運轉";
+      btn.style.background = "#ef4444";
+      orbitTimer = setInterval(() => {
+        orbitAngle = (orbitAngle + 1) % 360;
+        document.getElementById("orbitSlider").value = orbitAngle;
+        updateOrbitAngle(orbitAngle);
+      }, 50);
+    } else {
+      btn.textContent = "▶️ 自動公轉運轉";
+      btn.style.background = "#0284c7";
+      clearInterval(orbitTimer);
+    }
+  }
+
+  // 繪製兩大動畫
+  function drawTropicAndOrbit() {
+    drawTropicProfile();
+    drawOrbitView();
+  }
+
+  // 1. 地球剖面與直射點移動動畫
+  function drawTropicProfile() {
+    if (!tCtx) return;
+    const w = tropicCanvas.parentElement.getBoundingClientRect().width;
+    const h = 320;
+    tCtx.clearRect(0, 0, w, h);
+
+    const cx = w * 0.58;
+    const cy = h * 0.5;
+    const R = Math.min(w * 0.3, 105);
+
+    // (A) 太陽在左側，射入平行光
+    const sunLeftX = 25;
+    tCtx.save();
+    // 太陽光球
+    const sunGrad = tCtx.createRadialGradient(sunLeftX, cy, 5, sunLeftX, cy, 40);
+    sunGrad.addColorStop(0, "#fde047");
+    sunGrad.addColorStop(1, "rgba(245, 158, 11, 0)");
+    tCtx.fillStyle = sunGrad;
+    tCtx.beginPath();
+    tCtx.arc(sunLeftX, cy, 40, 0, Math.PI * 2);
+    tCtx.fill();
+
+    // 太陽平行光線
+    for (let i = -3; i <= 3; i++) {
+      const ly = cy + i * 28;
+      tCtx.beginPath();
+      tCtx.moveTo(sunLeftX + 35, ly);
+      tCtx.lineTo(cx - R - 6, ly);
+      tCtx.strokeStyle = "rgba(251, 191, 36, 0.4)";
+      tCtx.lineWidth = 2;
+      tCtx.stroke();
+
+      // 箭頭
+      drawArrowOnCurve(tCtx, cx - R - 15, ly, 0, "rgba(251, 191, 36, 0.7)");
+    }
+    tCtx.restore();
+
+    // (B) 繪製傾斜地球 (地軸傾斜 23.5°)
+    const tiltRad = 23.5 * Math.PI / 180;
+    tCtx.save();
+    tCtx.translate(cx, cy);
+
+    // 地球本體球體
+    const earthGrad = tCtx.createRadialGradient(-R*0.3, -R*0.3, 10, 0, 0, R);
+    earthGrad.addColorStop(0, "#38bdf8");
+    earthGrad.addColorStop(0.7, "#0369a1");
+    earthGrad.addColorStop(1, "#082f49");
+    tCtx.fillStyle = earthGrad;
+    tCtx.beginPath();
+    tCtx.arc(0, 0, R, 0, Math.PI * 2);
+    tCtx.fill();
+    tCtx.lineWidth = 2;
+    tCtx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    tCtx.stroke();
+
+    // 旋轉至傾斜視角繪製緯線
+    tCtx.rotate(-tiltRad);
+
+    // 地軸
+    tCtx.beginPath();
+    tCtx.moveTo(0, -R - 22);
+    tCtx.lineTo(0, R + 22);
+    tCtx.lineWidth = 3;
+    tCtx.strokeStyle = "#f87171";
+    tCtx.stroke();
+
+    tCtx.font = "bold 13px sans-serif";
+    tCtx.fillStyle = "#fca5a5";
+    tCtx.textAlign = "center";
+    tCtx.fillText("北極 (N)", 0, -R - 26);
+    tCtx.fillText("南極 (S)", 0, R + 34);
+
+    // 輔助繪製緯線函式
+    const drawLatLine = (deg, label, color, isBold = false) => {
+      const y = -R * Math.sin(deg * Math.PI / 180);
+      const rAtY = R * Math.cos(deg * Math.PI / 180);
+      tCtx.beginPath();
+      tCtx.ellipse(0, y, rAtY, rAtY * 0.22, 0, 0, Math.PI * 2);
+      tCtx.lineWidth = isBold ? 2.8 : 1.5;
+      tCtx.strokeStyle = color;
+      tCtx.stroke();
+
+      tCtx.font = (isBold ? "bold 13px" : "11px") + " sans-serif";
+      tCtx.fillStyle = color;
+      tCtx.textAlign = "left";
+      tCtx.fillText(label, rAtY + 6, y + 4);
+    };
+
+    // 北回歸線 (23.5°N)
+    drawLatLine(23.5, "北回歸線 (23.5°N) ⭐嘉義", "#fde047", true);
+    // 赤道 (0°)
+    drawLatLine(0, "赤道 (0°)", "#ffffff", false);
+    // 南回歸線 (-23.5°S)
+    drawLatLine(-23.5, "南回歸線 (23.5°S)", "#93c5fd", true);
+
+    tCtx.restore();
+
+    // (C) 繪製直射光點 (Subsolar Point) 與標註
+    const subsolarLat = 23.5 * Math.sin(orbitAngle * Math.PI / 180);
+    // 直射光在地球表面面向左側 (Sun-facing side) 的位置
+    // 在非旋轉座標系下，直射光永遠是在 y = -R * sin(subsolarLat)
+    const directY = cy - R * Math.sin(subsolarLat * Math.PI / 180);
+    const directX = cx - Math.sqrt(Math.max(0, R*R - (directY - cy)*(directY - cy)));
+
+    // 醒目直射光束
+    tCtx.save();
+    tCtx.beginPath();
+    tCtx.moveTo(sunLeftX + 35, directY);
+    tCtx.lineTo(directX, directY);
+    tCtx.lineWidth = 4;
+    tCtx.strokeStyle = "#ef4444";
+    tCtx.stroke();
+
+    // 直射點紅色標靶
+    tCtx.beginPath();
+    tCtx.arc(directX, directY, 8, 0, Math.PI * 2);
+    tCtx.fillStyle = "#ef4444";
+    tCtx.shadowColor = "#f87171";
+    tCtx.shadowBlur = 12;
+    tCtx.fill();
+
+    // 垂直直角記號 (90°)
+    tCtx.lineWidth = 2;
+    tCtx.strokeStyle = "#fef08a";
+    tCtx.strokeRect(directX + 2, directY - 8, 8, 8);
+
+    // 標註「90°直射點」
+    tCtx.font = "bold 14px sans-serif";
+    tCtx.fillStyle = "#fde047";
+    tCtx.textAlign = "right";
+    tCtx.fillText("🎯 90°直射點", directX - 14, directY - 6);
+
+    // 如果正好在夏至 (北回歸線直射)：特別閃耀
+    if (Math.abs(subsolarLat - 23.5) < 1.2) {
+      tCtx.font = "bold 15px sans-serif";
+      tCtx.fillStyle = "#34d399";
+      tCtx.textAlign = "left";
+      tCtx.fillText("⭐ 臺灣嘉義正午「立竿無影」！", cx + R + 10, directY + 5);
+    }
+    tCtx.restore();
+  }
+
+  // 2. 地球繞日公轉軌道視野動畫
+  function drawOrbitView() {
+    if (!oCtx) return;
+    const w = orbitCanvas.parentElement.getBoundingClientRect().width;
+    const h = 320;
+    oCtx.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h / 2;
+    const rx = Math.min(w * 0.42, 160);
+    const ry = 80;
+
+    // 公轉軌道橢圓 (虛線)
+    oCtx.save();
+    oCtx.beginPath();
+    oCtx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    oCtx.lineWidth = 2;
+    oCtx.setLineDash([6, 5]);
+    oCtx.strokeStyle = "rgba(56, 189, 248, 0.45)";
+    oCtx.stroke();
+    oCtx.restore();
+
+    // 中央太陽
+    oCtx.save();
+    const sunG = oCtx.createRadialGradient(cx, cy, 6, cx, cy, 26);
+    sunG.addColorStop(0, "#fde047");
+    sunG.addColorStop(0.7, "#f59e0b");
+    sunG.addColorStop(1, "rgba(245, 158, 11, 0)");
+    oCtx.fillStyle = sunG;
+    oCtx.beginPath();
+    oCtx.arc(cx, cy, 26, 0, Math.PI * 2);
+    oCtx.fill();
+    oCtx.font = "bold 12px sans-serif";
+    oCtx.fillStyle = "#fef08a";
+    oCtx.textAlign = "center";
+    oCtx.fillText("太陽 ☀️", cx, cy + 38);
+    oCtx.restore();
+
+    // 四大節氣位置標記 (春/夏/秋/冬)
+    const points = [
+      { name: "3/21 春分", rad: 0, x: cx + rx, y: cy, color: "#86efac" },
+      { name: "6/21 夏至 (直射北回歸線)", rad: Math.PI/2, x: cx, y: cy - ry, color: "#fde047" },
+      { name: "9/23 秋分", rad: Math.PI, x: cx - rx, y: cy, color: "#cbd5e1" },
+      { name: "12/22 冬至 (直射南回歸線)", rad: 3*Math.PI/2, x: cx, y: cy + ry, color: "#93c5fd" }
+    ];
+
+    points.forEach(p => {
+      oCtx.beginPath();
+      oCtx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+      oCtx.fillStyle = p.color;
+      oCtx.fill();
+
+      oCtx.font = "bold 13px sans-serif";
+      oCtx.fillStyle = p.color;
+      oCtx.textAlign = "center";
+      let textY = p.y > cy ? p.y + 18 : p.y - 10;
+      if (p.x === cx + rx) { oCtx.textAlign = "left"; textY = p.y + 4; }
+      if (p.x === cx - rx) { oCtx.textAlign = "right"; textY = p.y + 4; }
+      oCtx.fillText(p.name, p.x, textY);
+    });
+
+    // 當前地球在軌道上的位置
+    // orbitAngle: 0=春分 (最右), 90=夏至 (最上), 180=秋分 (最左), 270=冬至 (最下)
+    // 逆時針公轉：角度對應
+    const earthRad = -orbitAngle * Math.PI / 180;
+    const earthX = cx + rx * Math.cos(earthRad);
+    const earthY = cy + ry * Math.sin(earthRad);
+
+    // 繪製公轉地球本體
+    oCtx.save();
+    oCtx.translate(earthX, earthY);
+
+    // 地球圓球
+    oCtx.beginPath();
+    oCtx.arc(0, 0, 14, 0, Math.PI * 2);
+    oCtx.fillStyle = "#0284c7";
+    oCtx.fill();
+    oCtx.lineWidth = 1.8;
+    oCtx.strokeStyle = "#ffffff";
+    oCtx.stroke();
+
+    // 關鍵：地軸在空間中始終平行傾斜！
+    oCtx.beginPath();
+    oCtx.moveTo(-8, 16);
+    oCtx.lineTo(8, -16);
+    oCtx.lineWidth = 2.5;
+    oCtx.strokeStyle = "#ef4444";
+    oCtx.stroke();
+
+    oCtx.restore();
+
+    // 地球光環與標籤
+    oCtx.font = "bold 14px sans-serif";
+    oCtx.fillStyle = "#38bdf8";
+    oCtx.textAlign = "center";
+    oCtx.fillText("🌍 地球 (地軸傾斜 23.5°)", earthX, earthY + 28);
   }
 
   // --- 1-3 光學實驗室 ---
@@ -2002,7 +2791,7 @@
     if (isTvMode) {
       body.classList.add("tv-mode");
       if (btn) {
-        btn.innerHTML = "📺 大電視投影：超大字 🟢";
+        btn.innerHTML = "📺 大字投影：超大 🟢";
         btn.style.background = "#f59e0b";
         btn.style.color = "#000";
       }
@@ -2010,7 +2799,7 @@
     } else {
       body.classList.remove("tv-mode");
       if (btn) {
-        btn.innerHTML = "📺 大電視投影字體：標準";
+        btn.innerHTML = "📺 大字投影：標準";
         btn.style.background = "rgba(245, 158, 11, 0.25)";
         btn.style.color = "#fde047";
       }
@@ -2020,12 +2809,22 @@
     if (typeof resizeSphereCanvas === "function") resizeSphereCanvas();
   }
 
-  // 預設若螢幕解析度較大 (如 1080p 以上) 或之前開啟過，自動啟用或依偏好設定
+  // 預設若螢幕解析度較大或之前開啟過，自動啟用大字投影模式
   document.addEventListener("DOMContentLoaded", () => {
     const saved = localStorage.getItem("sun_tv_mode");
-    if (saved === "true" || window.innerWidth >= 1440) {
-      // 預設在大螢幕下直接啟用大字模式
+    if (saved === "true" || (saved === null && window.innerWidth >= 1440)) {
       toggleTvMode();
+    }
+
+    // 支援滑鼠滾輪在導航列上平滑橫向滾動
+    const navTabsEl = document.getElementById("mainNavTabs");
+    if (navTabsEl) {
+      navTabsEl.addEventListener("wheel", (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          navTabsEl.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
     }
   });
 
@@ -2056,7 +2855,13 @@
     drawCompass();
     updateStats();
     set13Lab("rainbow");
+    updateOrbitAngle(90); // 預設夏至直射北回歸線
   };
+
+  window.addEventListener("resize", () => {
+    if (typeof resizeSphereCanvas === "function") resizeSphereCanvas();
+    if (typeof resizeOrbitCanvases === "function") resizeOrbitCanvases();
+  });
 </script>
 </body>
 </html>
