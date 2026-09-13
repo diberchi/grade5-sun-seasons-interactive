@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>☀️ 國小自然五上：四季太陽位置探究｜課堂互動教學網站</title>
+<title>☀️ 國小自然五上第一單元：太陽的祕密 全單元互動教學系統</title>
 <style>
   :root {
     --bg-dark: #090d16;
-    --card-bg: rgba(22, 32, 54, 0.88);
+    --card-bg: rgba(22, 32, 54, 0.9);
     --primary: #38bdf8;
     --primary-hover: #0284c7;
     --accent: #fbbf24;
     --accent-red: #f87171;
     --accent-green: #34d399;
+    --accent-purple: #c084fc;
     --text-light: #f8fafc;
     --text-muted: #94a3b8;
     --border: rgba(255, 255, 255, 0.12);
@@ -21,8 +22,9 @@
   body {
     background-color: var(--bg-dark);
     background-image: 
-      radial-gradient(circle at 20% 15%, rgba(56, 189, 248, 0.15), transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.1), transparent 40%);
+      radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.12), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(251, 191, 36, 0.1), transparent 40%),
+      radial-gradient(circle at 50% 85%, rgba(192, 132, 252, 0.08), transparent 50%);
     color: var(--text-light);
     min-height: 100vh;
     display: flex;
@@ -32,10 +34,10 @@
 
   /* 頂部導航 */
   header {
-    background: rgba(10, 16, 29, 0.95);
-    backdrop-filter: blur(12px);
+    background: rgba(10, 16, 29, 0.96);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
-    padding: 12px 24px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,83 +45,104 @@
     top: 0;
     z-index: 1000;
   }
-  .header-left { display: flex; align-items: center; gap: 12px; }
-  .logo-icon { font-size: 2rem; animation: pulse 3s infinite; }
+  .header-left { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .logo-icon { font-size: 2.2rem; animation: pulse 3s infinite; }
   @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
   .logo-title { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
   .logo-subtitle { font-size: 0.8rem; color: var(--primary); background: rgba(56, 189, 248, 0.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; display: inline-block; margin-top: 2px; }
   
-  .nav-tabs { display: flex; gap: 6px; }
+  .nav-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; max-width: 62vw; }
+  .nav-tabs::-webkit-scrollbar { height: 4px; }
+  .nav-tabs::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
   .nav-tab {
     background: transparent;
     color: var(--text-muted);
     border: 1px solid transparent;
     padding: 8px 12px;
     border-radius: 8px;
-    font-size: 0.92rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
   }
-  .nav-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+  .nav-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
   .nav-tab.active {
     color: #fff;
     background: #0284c7;
     border-color: #38bdf8;
     box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
   }
+  .nav-tab.star {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.3));
+    color: #fef08a;
+    border-color: rgba(251, 191, 36, 0.4);
+  }
+  .nav-tab.star.active {
+    background: #d97706;
+    border-color: #fcd34d;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    color: #fff;
+  }
 
-  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
   .action-btn {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--border);
     color: #fff;
-    padding: 8px 14px;
+    padding: 7px 12px;
     border-radius: 8px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: 0.2s;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-weight: 600;
+    white-space: nowrap;
   }
   .action-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--primary); }
 
   /* 主內容容器 */
-  main { flex: 1; max-width: 1300px; width: 100%; margin: 0 auto; padding: 24px 20px; }
+  main { flex: 1; max-width: 1320px; width: 100%; margin: 0 auto; padding: 22px 18px; }
 
   .tab-pane { display: none; animation: fadeIn 0.35s ease forwards; }
   .tab-pane.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 卡片與格線 */
-  .grid-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start; }
+  /* 常用佈局 */
+  .grid-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: start; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
   .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 24px;
+    padding: 22px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
   }
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .card-title { font-size: 1.3rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .card-subtitle { font-size: 0.9rem; color: var(--text-muted); }
 
-  /* 天球 Canvas 容器 */
+  /* Canvas 畫布容器 */
   .canvas-wrap {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 440px;
     background: radial-gradient(circle at 50% 60%, #1e293b, #090d16);
     border-radius: 14px;
     overflow: hidden;
@@ -127,31 +150,29 @@
   }
   canvas { display: block; width: 100%; height: 100%; }
 
-  /* 季節切換按鈕組 */
-  .season-selector { display: flex; gap: 10px; margin-bottom: 18px; }
-  .season-btn {
+  /* 按鈕組與控制器 */
+  .btn-group { display: flex; gap: 10px; margin-bottom: 16px; }
+  .choice-btn {
     flex: 1;
-    padding: 12px 10px;
+    padding: 10px;
     border-radius: 10px;
     border: 2px solid transparent;
     background: rgba(255, 255, 255, 0.06);
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
   }
-  .season-btn:hover { background: rgba(255, 255, 255, 0.12); }
-  .season-btn.summer.active { background: rgba(239, 68, 68, 0.25); border-color: #ef4444; color: #fca5a5; }
-  .season-btn.spring.active { background: rgba(52, 211, 153, 0.25); border-color: #34d399; color: #6ee7b7; }
-  .season-btn.winter.active { background: rgba(56, 189, 248, 0.25); border-color: #38bdf8; color: #bae6fd; }
+  .choice-btn:hover { background: rgba(255, 255, 255, 0.12); }
+  .choice-btn.active { background: rgba(2, 132, 199, 0.3); border-color: var(--primary); color: #bae6fd; }
 
-  /* 時間滑桿控制 */
-  .time-slider-wrap { margin-top: 20px; }
-  .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .slider-label { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; }
-  .slider-val { font-size: 1.4rem; font-weight: 800; color: var(--accent); font-family: monospace; }
+  /* 時間與角度滑桿 */
+  .slider-wrap { margin-top: 16px; }
+  .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .slider-title { font-size: 1rem; font-weight: 600; color: #e2e8f0; }
+  .slider-val { font-size: 1.3rem; font-weight: 800; color: var(--accent); font-family: monospace; }
   input[type="range"] {
     width: 100%;
     height: 8px;
@@ -163,8 +184,8 @@
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--accent);
     box-shadow: 0 0 10px #fbbf24;
@@ -173,59 +194,49 @@
   }
   input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-  /* 數據儀表板 */
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  /* 數據小儀表 */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
   .stat-box {
     background: rgba(15, 23, 42, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 14px;
+    border-radius: 10px;
+    padding: 12px;
     text-align: center;
   }
-  .stat-name { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px; }
-  .stat-value { font-size: 1.5rem; font-weight: 800; color: #fff; font-family: monospace; }
-  .stat-unit { font-size: 0.85rem; color: var(--primary); margin-left: 2px; }
+  .stat-name { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 3px; }
+  .stat-value { font-size: 1.4rem; font-weight: 800; color: #fff; font-family: monospace; }
+  .stat-unit { font-size: 0.8rem; color: var(--primary); margin-left: 2px; }
 
-  /* 大口訣橫幅 */
+  /* 口訣橫幅 */
   .rhyme-banner {
     background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(239, 68, 68, 0.15));
     border: 2px dashed rgba(251, 191, 36, 0.4);
-    border-radius: 14px;
-    padding: 16px 20px;
-    margin-top: 20px;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 18px;
     text-align: center;
   }
-  .rhyme-title { font-size: 0.9rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
-  .rhyme-text { font-size: 1.35rem; font-weight: 900; color: #fef08a; margin-top: 6px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
+  .rhyme-title { font-size: 0.85rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+  .rhyme-text { font-size: 1.25rem; font-weight: 900; color: #fef08a; margin-top: 4px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
 
-  /* 互動闖關題庫 */
-  .quiz-container { max-width: 860px; margin: 0 auto; }
+  /* 題目卡片 */
   .quiz-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 30px;
-    margin-bottom: 20px;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 18px;
   }
-  .q-badge {
-    display: inline-block;
-    background: #0284c7;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .q-text { font-size: 1.35rem; font-weight: 700; line-height: 1.6; margin-bottom: 20px; }
-  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .q-badge { display: inline-block; background: #0284c7; color: #fff; padding: 3px 10px; border-radius: 999px; font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; }
+  .q-text { font-size: 1.25rem; font-weight: 700; line-height: 1.6; margin-bottom: 16px; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .opt-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #f8fafc;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 1.1rem;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 1.05rem;
     font-weight: 600;
     text-align: left;
     cursor: pointer;
@@ -234,67 +245,44 @@
   .opt-btn:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary); transform: translateY(-2px); }
   .opt-btn.correct { background: rgba(52, 211, 153, 0.3) !important; border-color: #34d399 !important; color: #a7f3d0; }
   .opt-btn.wrong { background: rgba(239, 68, 68, 0.3) !important; border-color: #ef4444 !important; color: #fca5a5; }
-  
   .explanation-box {
-    margin-top: 18px;
-    padding: 16px 20px;
-    border-radius: 10px;
-    background: rgba(15, 23, 42, 0.9);
+    margin-top: 14px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.95);
     border-left: 4px solid var(--primary);
     display: none;
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: #cbd5e1;
   }
 
-  /* 碎紙花效果 Canvas */
-  #confettiCanvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    pointer-events: none;
-    z-index: 9999;
-  }
+  /* 表格樣式 */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 12px 14px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 1.05rem; }
+  th { background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: bold; }
+  tr:hover { background: rgba(255, 255, 255, 0.03); }
 
-  /* 教師專區與學習單檢視 */
-  .teach-step {
-    border-left: 3px solid var(--primary);
-    padding-left: 18px;
-    margin-bottom: 24px;
-  }
-  .step-tag {
-    background: #0284c7;
-    color: #fff;
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: bold;
+  /* 重點整理卡片美化 */
+  .summary-badge {
     display: inline-block;
-    margin-bottom: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 6px;
   }
-  .step-title { font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 8px; }
-  .dialogue-box {
-    background: rgba(15, 23, 42, 0.6);
-    padding: 14px;
-    border-radius: 8px;
-    margin-top: 8px;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #e2e8f0;
-  }
+  .badge-1 { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid #34d399; }
+  .badge-2 { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid #38bdf8; }
+  .badge-3 { background: rgba(192, 132, 252, 0.2); color: #d8b4fe; border: 1px solid #c084fc; }
 
-  /* 列印樣式 */
-  @media print {
-    header, .header-actions, .nav-tabs, .btn, #playBtn, .rhyme-banner { display: none !important; }
-    body { background: white !important; color: black !important; }
-    .card { border: none !important; box-shadow: none !important; color: black !important; }
-    .tab-pane { display: block !important; }
-  }
+  /* 碎紙花 Canvas */
+  #confettiCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
 
-  @media (max-width: 900px) {
-    .grid-layout { grid-template-columns: 1fr; }
-    .nav-tabs { overflow-x: auto; max-width: 50vw; }
+  @media (max-width: 960px) {
+    .grid-layout, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .options-grid { grid-template-columns: 1fr; }
+    .nav-tabs { max-width: 80vw; }
   }
 </style>
 </head>
@@ -303,22 +291,23 @@
 <canvas id="confettiCanvas"></canvas>
 
 <header>
-  <div class="header-left">
+  <div class="header-left" onclick="switchTab('tab-home')">
     <div class="logo-icon">☀️</div>
     <div>
-      <div class="logo-title">國小自然五上：四季太陽位置探究</div>
-      <div class="logo-subtitle">翰林版 1-2 太陽的祕密・課堂互動教學網站</div>
+      <div class="logo-title">國小自然五上：第一單元《太陽的祕密》</div>
+      <div class="logo-subtitle">翰林版 全單元旗艦互動教學系統</div>
     </div>
   </div>
 
   <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('tab-sphere')">🌐 1. 天球模擬器</button>
-    <button class="nav-tab" onclick="switchTab('tab-angle')">🔦 2. 直射斜射實驗</button>
-    <button class="nav-tab" onclick="switchTab('tab-compass')">🧭 3. 方位羅盤</button>
-    <button class="nav-tab" onclick="switchTab('tab-data')">📊 4. 嘉義觀測表</button>
-    <button class="nav-tab" onclick="switchTab('tab-quiz')">🎮 5. 課堂搶答</button>
-    <button class="nav-tab" onclick="switchTab('tab-plan')">📖 6. 教學教案與流程</button>
-    <button class="nav-tab" onclick="switchTab('tab-worksheet')">📝 7. 學生學習單</button>
+    <button class="nav-tab active" onclick="switchTab('tab-home')">🏠 單元總覽</button>
+    <button class="nav-tab" onclick="switchTab('tab-1-1')">🌱 1-1 太陽與生活</button>
+    <button class="nav-tab" onclick="switchTab('tab-1-2')">🧭 1-2 太陽的位置變化</button>
+    <button class="nav-tab" onclick="switchTab('tab-1-3')">🌈 1-3 光的折射</button>
+    <button class="nav-tab star" onclick="switchTab('tab-summary')">⭐ 單元重點整理</button>
+    <button class="nav-tab" onclick="switchTab('tab-quiz')">🎮 全單元搶答</button>
+    <button class="nav-tab" onclick="switchTab('tab-plan')">📖 13節完整教案</button>
+    <button class="nav-tab" onclick="switchTab('tab-worksheet')">📝 課堂學習單</button>
   </nav>
 
   <div class="header-actions">
@@ -328,8 +317,113 @@
 </header>
 
 <main>
-  <!-- TAB 1: 四季天球與影長模擬器 -->
-  <section class="tab-pane active" id="tab-sphere">
+  <!-- TAB 0: 單元首頁與概念地圖 -->
+  <section class="tab-pane active" id="tab-home">
+    <div style="text-align: center; padding: 25px 0 35px;">
+      <div style="font-size: 3.5rem; margin-bottom: 10px;">☀️ 🌱 🧭 🌈</div>
+      <h1 style="font-size: 2.4rem; color: #38bdf8; letter-spacing: 1px;">第一單元 太陽的祕密</h1>
+      <p style="font-size: 1.25rem; color: #cbd5e1; max-width: 800px; margin: 12px auto 25px; line-height: 1.7;">
+        太陽提供地球生命源源不絕的能量。本單元帶領學生從「生活中的光與熱」，探究「一日與四季的運行規律」，再進一步解密「光的分散、折射與透鏡成像」！
+      </p>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <span class="summary-badge badge-1">108 課綱自然領域核心素養</span>
+        <span class="summary-badge badge-2">全單元共 13 節完整規劃</span>
+        <span class="summary-badge badge-3">課本第 8 ～ 41 頁</span>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <!-- 1-1 卡片 -->
+      <div class="card" style="border-top: 4px solid #34d399; cursor: pointer;" onclick="switchTab('tab-1-1')">
+        <div style="font-size: 2.2rem; margin-bottom: 10px;">🌱</div>
+        <div class="card-title" style="color: #6ee7b7;">1-1 太陽與生活（2 節）</div>
+        <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; margin-top: 8px;">
+          • 太陽光熱對動植物生存的關鍵影響<br>
+          • 植物光合作用製造養分與氧氣<br>
+          • 人體合成維生素 D、日晒製鹽與曬乾<br>
+          • 綠能科技：太陽能光電板與集熱器
+        </p>
+        <div style="margin-top: 14px; font-size: 0.95rem; color: var(--primary); font-weight: bold;">點擊進入 1-1 互動學習 ➔</div>
+      </div>
+
+      <!-- 1-2 卡片 -->
+      <div class="card" style="border-top: 4px solid #38bdf8; cursor: pointer;" onclick="switchTab('tab-1-2')">
+        <div style="font-size: 2.2rem; margin-bottom: 10px;">🧭</div>
+        <div class="card-title" style="color: #7dd3fc;">1-2 太陽的位置變化（6 節）</div>
+        <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; margin-top: 8px;">
+          • 樹影與古代日晷計時原理<br>
+          • 光源與影子反向、高度角與影長成反比<br>
+          • 一日東升西落、中午偏南最高<br>
+          • 四季代表日、天球圖與直射斜射實驗
+        </p>
+        <div style="margin-top: 14px; font-size: 0.95rem; color: var(--primary); font-weight: bold;">點擊進入 1-2 互動學習 ➔</div>
+      </div>
+
+      <!-- 1-3 卡片 -->
+      <div class="card" style="border-top: 4px solid #c084fc; cursor: pointer;" onclick="switchTab('tab-1-3')">
+        <div style="font-size: 2.2rem; margin-bottom: 10px;">🌈</div>
+        <div class="card-title" style="color: #d8b4fe;">1-3 光的折射（5 節）</div>
+        <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; margin-top: 8px;">
+          • 彩虹成因、噴水造虹與三稜鏡色散<br>
+          • 水中吸管折斷、夜市撈魚視深變淺<br>
+          • 認識介質與雷射光偏折路徑<br>
+          • 放大鏡（凸透鏡）聚光焦點與成像規律
+        </p>
+        <div style="margin-top: 14px; font-size: 0.95rem; color: var(--primary); font-weight: bold;">點擊進入 1-3 互動學習 ➔</div>
+      </div>
+    </div>
+
+    <!-- 考前重點整理大按鈕 -->
+    <div class="card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); border: 2px solid rgba(251, 191, 36, 0.5); cursor: pointer;" onclick="switchTab('tab-summary')">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #fef08a;">⭐ 全單元考前重點整理與避坑寶典</div>
+          <div style="color: #e2e8f0; margin-top: 4px; font-size: 1.05rem;">彙整 4 大神口訣、4 大常見易錯迷思剖析、心智圖結構與高頻考點表格！</div>
+        </div>
+        <button class="action-btn" style="background: #f59e0b; color: #000; font-weight: 800; font-size: 1rem; padding: 10px 20px;">立即查看精華 ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 1: 1-1 太陽與生活 -->
+  <section class="tab-pane" id="tab-1-1">
+    <div class="grid-layout">
+      <!-- 左：互動切換展示 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🌱 太陽光和熱的奇妙力量</div>
+          <div class="card-subtitle">點選下方情境，體驗太陽對地球的影響</div>
+        </div>
+
+        <div class="btn-group">
+          <button class="choice-btn active" id="btn-11-photo" onclick="set11Scene('photo')">🌿 光合作用</button>
+          <button class="choice-btn" id="btn-11-vit" onclick="set11Scene('vit')">🦴 維生素 D</button>
+          <button class="choice-btn" id="btn-11-salt" onclick="set11Scene('salt')">🧂 日晒製鹽晒衣</button>
+          <button class="choice-btn" id="btn-11-solar" onclick="set11Scene('solar')">🔋 綠能科技</button>
+        </div>
+
+        <div class="canvas-wrap" style="height: 380px;">
+          <canvas id="scene11Canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- 右：核心知識解析 -->
+      <div class="card">
+        <div class="card-title">📖 1-1 核心觀念解析</div>
+        <div id="scene11Info" style="margin-top: 14px; line-height: 1.8; font-size: 1.05rem; color: #e2e8f0;">
+          <!-- 動態注入內容 -->
+        </div>
+
+        <div class="rhyme-banner" style="margin-top: 24px;">
+          <div class="rhyme-title">📢 1-1 核心結論</div>
+          <div class="rhyme-text">太陽是地球生命之母，提供光能與熱能，永續綠能護家園！</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: 1-2 太陽的位置變化 -->
+  <section class="tab-pane" id="tab-1-2">
     <div class="grid-layout">
       <div class="card" style="padding: 16px;">
         <div class="card-header">
@@ -342,10 +436,10 @@
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 14px; align-items: center;">
-          <button class="action-btn" id="playBtn" onclick="togglePlay()" style="background: #0284c7; font-weight: bold; padding: 10px 20px;">
+          <button class="action-btn" id="playBtn" onclick="togglePlay()" style="background: #0284c7; font-weight: bold; padding: 9px 18px;">
             ▶️ 自動播放一日運行
           </button>
-          <div style="color: var(--text-muted); font-size: 0.95rem;">
+          <div style="color: var(--text-muted); font-size: 0.9rem;">
             觀測基準：臺灣嘉義北迴歸線（23.5°N）
           </div>
         </div>
@@ -354,16 +448,16 @@
       <div class="card">
         <div class="card-title">⚙️ 觀測設定與即時儀表</div>
         
-        <div style="margin-top: 16px; margin-bottom: 8px; font-weight: 600; color: #cbd5e1;">選擇觀測代表日：</div>
-        <div class="season-selector">
-          <button class="season-btn summer active" onclick="setSeason('summer')">🍉 夏至<br><span style="font-size:0.75rem;">6月21日</span></button>
-          <button class="season-btn spring" onclick="setSeason('spring')">🌱 春/秋分<br><span style="font-size:0.75rem;">3/21, 9/23</span></button>
-          <button class="season-btn winter" onclick="setSeason('winter')">❄️ 冬至<br><span style="font-size:0.75rem;">12月22日</span></button>
+        <div style="margin-top: 14px; margin-bottom: 8px; font-weight: 600; color: #cbd5e1;">選擇四季代表日：</div>
+        <div class="btn-group">
+          <button class="choice-btn active" id="btn-season-summer" onclick="setSeason('summer')">🍉 夏至<br><span style="font-size:0.75rem;">6/21</span></button>
+          <button class="choice-btn" id="btn-season-spring" onclick="setSeason('spring')">🌱 春/秋分<br><span style="font-size:0.75rem;">3/21, 9/23</span></button>
+          <button class="choice-btn" id="btn-season-winter" onclick="setSeason('winter')">❄️ 冬至<br><span style="font-size:0.75rem;">12/22</span></button>
         </div>
 
-        <div class="time-slider-wrap">
-          <div class="slider-header">
-            <span class="slider-label">觀測時刻（日光時間）：</span>
+        <div class="slider-wrap">
+          <div class="slider-head">
+            <span class="slider-title">日光觀測時間：</span>
             <span class="slider-val" id="timeDisplay">12:00</span>
           </div>
           <input type="range" id="timeSlider" min="6" max="18" step="0.1" value="12" oninput="updateTime(this.value)">
@@ -394,311 +488,431 @@
         </div>
 
         <div class="rhyme-banner">
-          <div class="rhyme-title">📢 課堂必背大口訣</div>
+          <div class="rhyme-title">📢 1-2 必背大口訣</div>
           <div class="rhyme-text">春秋正東正西落，夏天偏北冬天南！</div>
-          <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 6px;">夏天太陽高掛影子短，冬天太陽斜射影子長！</div>
+          <div style="font-size: 0.92rem; color: #cbd5e1; margin-top: 5px;">夏天高度角大影子短，冬天高度角小影子長！</div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- TAB 2: 直射 vs 斜射實驗室 -->
-  <section class="tab-pane" id="tab-angle">
-    <div class="grid-layout">
+    <!-- 直射斜射與羅盤次區塊 -->
+    <div class="grid-2" style="margin-top: 20px;">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔦 手電筒直射 vs 斜射 模擬實驗</div>
-          <div style="font-size: 0.9rem; color: var(--primary);">拖動手電筒斜角，觀察地面光斑大小與熱量密度</div>
+          <div class="card-title">🔦 手電筒直射 vs 斜射 實驗</div>
+          <div class="card-subtitle">滑動調節高度角，觀察光斑與熱量密度</div>
         </div>
-        <div class="canvas-wrap" style="height: 420px;">
+        <div class="canvas-wrap" style="height: 300px;">
           <canvas id="lightAngleCanvas"></canvas>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">🌡️ 地表受熱分析儀</div>
-        <p style="margin-top: 10px; font-size: 1.05rem; color: #cbd5e1;">
-          為什麼夏天那麼熱、冬天那麼冷？真的是因為離太陽比較近嗎？
-        </p>
-
-        <div class="time-slider-wrap" style="margin-top: 20px;">
-          <div class="slider-header">
-            <span class="slider-label">陽光入射角度（高度角）：</span>
+        <div class="slider-wrap">
+          <div class="slider-head">
+            <span class="slider-title">入射角度（高度角）：</span>
             <span class="slider-val" id="angleDisplay">89° (夏至直射)</span>
           </div>
           <input type="range" id="angleSlider" min="20" max="90" step="1" value="89" oninput="updateAngle(this.value)">
         </div>
-
-        <div class="stat-grid">
-          <div class="stat-box">
-            <div class="stat-name">地面光斑面積</div>
-            <div class="stat-value" id="spotAreaVal">1.0<span class="stat-unit">倍 (集中)</span></div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-name">單位面積熱量</div>
-            <div class="stat-value" id="heatVal" style="color: #f87171;">100<span class="stat-unit">%</span></div>
-          </div>
-        </div>
-
-        <div style="margin-top: 24px; padding: 16px; border-radius: 12px; background: rgba(15, 23, 42, 0.7); border-left: 4px solid var(--accent);">
-          <div style="font-weight: 700; color: #fbbf24; font-size: 1.1rem; margin-bottom: 6px;">💡 迷思概念大除錯：</div>
-          <div style="font-size: 1rem; line-height: 1.6; color: #e2e8f0;">
-            夏天天氣熱，是因為<strong>太陽高度角大，光線接近直射</strong>，熱量集中在小面積，加上白天時間長達 13.5 小時！而不是因為地球離太陽近喔！
-          </div>
-        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- TAB 3: 日出日落方位羅盤 -->
-  <section class="tab-pane" id="tab-compass">
-    <div class="grid-layout">
       <div class="card">
         <div class="card-header">
           <div class="card-title">🧭 四季日出日落方位羅盤</div>
-          <div style="font-size: 0.9rem; color: var(--primary);">點選季節，觀察升起與落下位置的偏轉</div>
+          <div class="card-subtitle">觀察升起與落下角度</div>
         </div>
-        <div class="canvas-wrap" style="height: 440px;">
+        <div class="canvas-wrap" style="height: 300px;">
           <canvas id="compassCanvas"></canvas>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📌 方位解密指南</div>
-        <div class="season-selector" style="margin-top: 16px;">
-          <button class="season-btn summer active" id="compSummerBtn" onclick="setCompassSeason('summer')">🍉 夏至</button>
-          <button class="season-btn spring" id="compSpringBtn" onclick="setCompassSeason('spring')">🌱 春分/秋分</button>
-          <button class="season-btn winter" id="compWinterBtn" onclick="setCompassSeason('winter')">❄️ 冬至</button>
-        </div>
-
-        <div id="compassInfoCard" style="margin-top: 20px; padding: 20px; background: rgba(15, 23, 42, 0.7); border-radius: 12px; border: 1px solid var(--border);">
-          <h3 style="color: #f87171; font-size: 1.3rem; margin-bottom: 10px;" id="compSeasonTitle">夏至 (約6月21日前後)</h3>
-          <ul style="list-style: none; line-height: 2; font-size: 1.1rem; color: #e2e8f0;" id="compDetailList">
-            <li>🌅 <strong>日出方位</strong>：東偏北 (方位角約 69°)</li>
-            <li>🌄 <strong>日落方位</strong>：西偏北 (方位角約 291°)</li>
-            <li>⏳ <strong>白晝長度</strong>：約 13 小時 35 分（全年中白天最長）</li>
-            <li>☀️ <strong>正午高度角</strong>：約 89°（幾乎在正頭頂直射）</li>
-          </ul>
-        </div>
-
-        <div style="margin-top: 20px; padding: 14px; background: rgba(56, 189, 248, 0.1); border-radius: 10px; color: #bae6fd; font-size: 0.95rem;">
-          🔍 <strong>老師提問提示</strong>：請學生看著羅盤，「太陽從正東方升起、正西方落下」這句話，一年中只有哪兩天完全符合？（答案：春分與秋分）
+        <div class="btn-group" style="margin-top: 14px;">
+          <button class="choice-btn active" id="compSummerBtn" onclick="setCompassSeason('summer')">🍉 夏至 (偏北)</button>
+          <button class="choice-btn" id="compSpringBtn" onclick="setCompassSeason('spring')">🌱 春秋分 (正東正西)</button>
+          <button class="choice-btn" id="compWinterBtn" onclick="setCompassSeason('winter')">❄️ 冬至 (偏南)</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TAB 4: 嘉義觀測表 -->
-  <section class="tab-pane" id="tab-data">
+  <!-- TAB 3: 1-3 光的折射 -->
+  <section class="tab-pane" id="tab-1-3">
+    <div class="grid-layout">
+      <!-- 左邊：Canvas 模擬折射與透鏡 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🌈 光的色散與折射透鏡實驗室</div>
+          <div class="card-subtitle">選擇下方實驗，動手觀察光學奧祕</div>
+        </div>
+
+        <div class="btn-group">
+          <button class="choice-btn active" id="btn-13-rainbow" onclick="set13Lab('rainbow')">🌈 噴水器造虹</button>
+          <button class="choice-btn" id="btn-13-prism" onclick="set13Lab('prism')">🔺 三稜鏡色散</button>
+          <button class="choice-btn" id="btn-13-refract" onclick="set13Lab('refract')">🥤 水中折射撈魚</button>
+          <button class="choice-btn" id="btn-13-lens" onclick="set13Lab('lens')">🔍 放大鏡聚光成像</button>
+        </div>
+
+        <div class="canvas-wrap" style="height: 420px;">
+          <canvas id="lab13Canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- 右邊：互動控制與觀念提問 -->
+      <div class="card">
+        <div class="card-title">💡 1-3 探究重點與互動控制</div>
+        <div id="lab13Control" style="margin-top: 16px;">
+          <!-- 動態載入控制項 -->
+        </div>
+
+        <div id="lab13Info" style="margin-top: 18px; line-height: 1.8; font-size: 1.05rem; color: #e2e8f0; background: rgba(15, 23, 42, 0.7); padding: 16px; border-radius: 12px;">
+          <!-- 動態載入文字 -->
+        </div>
+
+        <div class="rhyme-banner" style="margin-top: 20px;">
+          <div class="rhyme-title">📢 1-3 必背大口訣</div>
+          <div class="rhyme-text">背對太陽造彩虹，跨越介質光偏折！</div>
+          <div style="font-size: 0.9rem; color: #cbd5e1; margin-top: 4px;">凸透鏡聚光在焦點，近看放大遠看倒！</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: ⭐ 單元重點整理（全單元考前精華大寶典） -->
+  <section class="tab-pane" id="tab-summary">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h2 style="font-size: 2.2rem; color: var(--accent);">⭐ 第一單元《太陽的祕密》全單元重點整理</h2>
+      <p style="color: #cbd5e1; font-size: 1.15rem; margin-top: 6px;">
+        108課綱國小五上自然・考前複習・高頻考點・四大口訣・避坑指南
+      </p>
+    </div>
+
+    <!-- 四大神口訣 -->
+    <div class="grid-2">
+      <div class="card" style="border-left: 5px solid #fbbf24;">
+        <div class="card-title" style="color: #fef08a;">📢 口訣一：四季日出日落方位</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #fde047; margin: 12px 0;">
+          「春秋正東正西落，夏天偏北冬天南！」
+        </div>
+        <p style="color: #cbd5e1; line-height: 1.7; font-size: 1rem;">
+          • <strong>春分、秋分</strong>：正東升起、正西落下（晝夜各 12 小時等長）。<br>
+          • <strong>夏至</strong>：東偏北升起、西偏北落下（白晝最長約 13.5 小時）。<br>
+          • <strong>冬至</strong>：東偏南升起、西偏南落下（白晝最短約 10.5 小時）。
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 5px solid #38bdf8;">
+        <div class="card-title" style="color: #7dd3fc;">📢 口訣二：高度角與影長關係</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #93c5fd; margin: 12px 0;">
+          「高度角大影子短，高度角小影子長！」
+        </div>
+        <p style="color: #cbd5e1; line-height: 1.7; font-size: 1rem;">
+          • 光源方向與影子方向<strong>相反</strong>。<br>
+          • <strong>一日規律</strong>：清晨黃昏高度角小、影子長；中午高度角最大、影子最短。<br>
+          • <strong>四季規律</strong>：夏至正午高度角最高（約89°）、影子最短；冬至正午高度角最低（約42°）、影子最長。
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 5px solid #34d399;">
+        <div class="card-title" style="color: #6ee7b7;">📢 口訣三：光在不同介質的折射</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #a7f3d0; margin: 12px 0;">
+          「同種介質走直線，斜跨介質轉個彎！」
+        </div>
+        <p style="color: #cbd5e1; line-height: 1.7; font-size: 1rem;">
+          • 光在空氣中或純水中都是<strong>直線前進</strong>。<br>
+          • 從空氣斜射入水、或從水斜射出空氣，在交界面會發生<strong>偏折（折射）</strong>。<br>
+          • 水中物體看起來比實際<strong>更淺</strong>（水深危險！夜市撈魚要瞄準魚的下方）。
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 5px solid #c084fc;">
+        <div class="card-title" style="color: #d8b4fe;">📢 口訣四：彩虹成因與放大鏡成像</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #e9d5ff; margin: 12px 0;">
+          「背向太陽造彩虹，近看放大遠看倒！」
+        </div>
+        <p style="color: #cbd5e1; line-height: 1.7; font-size: 1rem;">
+          • <strong>彩虹三要素</strong>：陽光充足、細密水霧、觀察者背對太陽。<br>
+          • 陽光是白光，是由紅橙黃綠藍靛紫多種色光組成（三稜鏡色散）。<br>
+          • <strong>放大鏡（凸透鏡）</strong>：中間厚邊緣薄；平行光匯聚在<strong>焦點</strong>；靠近物體成正立放大像，拉遠距離成倒立縮小像。
+        </p>
+      </div>
+    </div>
+
+    <!-- 四大常見考試陷阱與迷思除錯 -->
+    <div class="card" style="margin-top: 24px;">
+      <div class="card-header">
+        <div class="card-title" style="color: #f87171;">🚫 考前必讀！四大常見陷阱與迷思除錯</div>
+        <div style="color: var(--accent); font-weight: 600;">90% 小學生容易失分的關鍵點</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">常見錯誤迷思 (陷阱)</th>
+            <th style="width: 40%;">科學正確觀念 (真相)</th>
+            <th style="width: 35%;">考題破解指南</th>
+          </tr>
+        </thead>
+        <tbody style="text-align: left;">
+          <tr>
+            <td style="color: #fca5a5; font-weight: bold;">迷思 1：夏天熱是因為地球離太陽比較近？</td>
+            <td>四季冷熱的主因是<strong>太陽高度角（直射熱量集中 vs 斜射熱量分散）</strong>以及<strong>白晝日照時間長短</strong>，非距離遠近。</td>
+            <td>題目問「四季氣溫差異原因」，切記選「直射/斜射」與「日照時間長短」，千萬不要選地球與太陽距離！</td>
+          </tr>
+          <tr>
+            <td style="color: #fca5a5; font-weight: bold;">迷思 2：一年四季太陽每天都從正東方升起？</td>
+            <td>一年中只有<strong>春分與秋分</strong>兩天是「正東升、正西落」；夏天東偏北，冬天東偏南。</td>
+            <td>題目出現「每天都是正東升起」一定是錯的！口訣牢記：春秋正東正西落，夏天偏北冬天南。</td>
+          </tr>
+          <tr>
+            <td style="color: #fca5a5; font-weight: bold;">迷思 3：中午 12 點時太陽一定在頭頂正上方？</td>
+            <td>在臺灣（北半球），除了夏至正午在北迴歸線附近接近頭頂外，其餘季節與時間正午太陽都在<strong>偏南方</strong>天空。</td>
+            <td>臺灣正午影子指向<strong>北方</strong>（因為太陽在南方天空）。冬至正午高度角只有約 42 度，太陽遠在南邊半空中。</td>
+          </tr>
+          <tr>
+            <td style="color: #fca5a5; font-weight: bold;">迷思 4：從空氣直直射入水中光線會折斷偏折？</td>
+            <td>光線只有在<strong>「斜斜射入」</strong>另一種介質時才會產生偏折；若垂直射入介質，行進方向不會偏折。</td>
+            <td>注意題目是否有「斜射」關鍵字。垂直射入光線依然保持直行！</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 全單元知識架構表 -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📊 課本真實天文數據：臺灣嘉義四季太陽觀測資料表</div>
-        <div style="color: var(--accent); font-weight: 600;">北緯 23.5 度（北迴歸線）</div>
+        <div class="card-title" style="color: #38bdf8;">📋 第一單元全知識點對照總覽</div>
       </div>
-      
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-          <thead>
-            <tr style="background: rgba(2, 132, 199, 0.25); color: #38bdf8;">
-              <th style="padding: 14px;">代表日</th>
-              <th>代表日期</th>
-              <th>日出時刻</th>
-              <th>日落時刻</th>
-              <th>白天總時長</th>
-              <th>正午 12 點太陽高度角</th>
-              <th>正午地面影長</th>
-              <th>氣溫特徵</th>
-            </tr>
-          </thead>
-          <tbody style="text-align: center; font-size: 1.05rem;">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-              <td style="font-weight: 700; color: #34d399; padding: 14px;">春分</td>
-              <td>約 3 月 21 日</td>
-              <td>06:01</td>
-              <td>18:08</td>
-              <td>約 12 小時 07 分</td>
-              <td style="color: #fbbf24; font-weight: 700;">約 66°</td>
-              <td>適中</td>
-              <td>溫暖回春</td>
-            </tr>
-            <tr style="background: rgba(239, 68, 68, 0.15); border-bottom: 1px solid rgba(255,255,255,0.08);">
-              <td style="font-weight: 700; color: #f87171; padding: 14px;">夏至</td>
-              <td>約 6 月 21 日</td>
-              <td style="color: #fca5a5; font-weight: bold;">05:13 (最早)</td>
-              <td style="color: #fca5a5; font-weight: bold;">18:48 (最晚)</td>
-              <td style="color: #fca5a5; font-weight: 900;">約 13 小時 35 分 (最長)</td>
-              <td style="color: #fca5a5; font-weight: 900; font-size: 1.25rem;">約 89° (最高)</td>
-              <td style="color: #fca5a5; font-weight: bold;">極短 (腳邊一小團)</td>
-              <td style="color: #fca5a5; font-weight: bold;">炎熱 (直射)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-              <td style="font-weight: 700; color: #fb923c; padding: 14px;">秋分</td>
-              <td>約 9 月 23 日</td>
-              <td>05:48</td>
-              <td>17:55</td>
-              <td>約 12 小時 07 分</td>
-              <td style="color: #fbbf24; font-weight: 700;">約 66°</td>
-              <td>適中</td>
-              <td>涼爽秋日</td>
-            </tr>
-            <tr style="background: rgba(56, 189, 248, 0.15);">
-              <td style="font-weight: 700; color: #38bdf8; padding: 14px;">冬至</td>
-              <td>約 12 月 22 日</td>
-              <td style="color: #93c5fd; font-weight: bold;">06:38 (最晚)</td>
-              <td style="color: #93c5fd; font-weight: bold;">17:16 (最早)</td>
-              <td style="color: #93c5fd; font-weight: 900;">約 10 小時 38 分 (最短)</td>
-              <td style="color: #93c5fd; font-weight: 900; font-size: 1.25rem;">約 42° (最低)</td>
-              <td style="color: #93c5fd; font-weight: bold;">最長 (斜長影子)</td>
-              <td style="color: #93c5fd; font-weight: bold;">寒冷 (斜射)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="rhyme-banner" style="margin-top: 24px;">
-        <div class="rhyme-title">📊 數據歸納結論</div>
-        <div class="rhyme-text">春分到夏至：高度角漸大，白晝漸長；夏至到冬至：高度角漸小，白晝漸短！</div>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>單元章節</th>
+            <th>核心概念</th>
+            <th>重要實作與觀察實驗</th>
+            <th>關鍵考點與生活應用</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 700; color: #34d399;">1-1 太陽與生活</td>
+            <td>太陽光與熱是生命能量源頭；綠色能源科技</td>
+            <td>討論光合作用、日晒製鹽、晒乾食物；太陽能板與集熱器模型</td>
+            <td>光合作用原料與產物；維生素 D 骨骼健康；太陽能光電（光能轉電能）與沙崙綠能示範場域</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: #38bdf8;">1-2 太陽的位置變化</td>
+            <td>一日與四季太陽方位、高度角及影長規律</td>
+            <td>指北針定位、竿影高度角觀測、天球圖解析、嘉義四季觀測表分析</td>
+            <td>光源與影子反向；高度角大影長短；夏至白晝最長高度角最高、冬至白晝最短高度角最低</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: #c084fc;">1-3 光的折射</td>
+            <td>光在不同介質偏折；白光色散；凸透鏡聚光成像</td>
+            <td>噴水器造彩虹、三稜鏡色散、水杯吸管折射、放大鏡聚光成點與近遠物成像</td>
+            <td>造虹三要素（背對太陽）；白光由七色光組成；視深變淺（撈魚錯覺）；放大鏡近正大、遠倒小</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <!-- TAB 5: 課堂搶答挑戰 -->
+  <!-- TAB 5: 全單元闖關搶答挑戰 -->
   <section class="tab-pane" id="tab-quiz">
-    <div class="quiz-container">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <h2 style="font-size: 2rem; color: var(--accent);">🏆 自然科學小達人・課堂大挑戰</h2>
-        <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 6px;">請邀請同學上台點擊選項，即時檢視實力！</p>
-      </div>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <h2 style="font-size: 2rem; color: var(--accent);">🏆 全單元自然科學小達人・10 題闖關大挑戰</h2>
+      <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 6px;">涵蓋 1-1、1-2、1-3 完整知識點，點選選項立即驗證！</p>
+    </div>
 
+    <div style="max-width: 900px; margin: 0 auto;">
       <!-- Q1 -->
-      <div class="quiz-card" id="q1">
-        <span class="q-badge">第 1 題 / 單選題</span>
-        <div class="q-text">Q1. 一年中中午 12 點測量學校操場的旗桿影子，哪一天的影子長度會是全年中「最短」的？</div>
+      <div class="quiz-card" id="qz1">
+        <span class="q-badge">第 1 題 / 1-1 概念</span>
+        <div class="q-text">1. 植物葉片在白天進行「光合作用」時，需要吸收太陽光能與下列哪兩種物質來製造葡萄糖養分？</div>
         <div class="options-grid">
-          <button class="opt-btn" onclick="checkAnswer(this, false, 'q1', '春分時高度角約 66 度，影子長度適中。')">A. 春分</button>
-          <button class="opt-btn" onclick="checkAnswer(this, true, 'q1', '太棒了！夏至正午太陽高度角最高（接近 90 度），陽光直射，影子最短！')">B. 夏至</button>
-          <button class="opt-btn" onclick="checkAnswer(this, false, 'q1', '秋分時高度角約 66 度，影子長度適中。')">C. 秋分</button>
-          <button class="opt-btn" onclick="checkAnswer(this, false, 'q1', '冬至高度角最低（約 42 度），此時影子反而是一年中最長的喔！')">D. 冬至</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz1', '答對了！光合作用需要【水】和【二氧化碳】，並釋放出氧氣！')">A. 水和二氧化碳</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz1', '氧氣是光合作用釋放出的產物，不是原料喔！')">B. 氧氣和水</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz1', '土壤中的肥料是礦物質，主要原料是二氧化碳和水。')">C. 肥料和氧氣</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz1', '葡萄糖是光合作用產生的養分！')">D. 葡萄糖和氮氣</button>
         </div>
-        <div class="explanation-box" id="exp-q1"></div>
+        <div class="explanation-box" id="exp-qz1"></div>
       </div>
 
       <!-- Q2 -->
-      <div class="quiz-card" id="q2">
-        <span class="q-badge">第 2 題 / 觀念判斷</span>
-        <div class="q-text">Q2. 「太陽一年 365 天都是從正東方升起、正西方落下。」這句話正確嗎？</div>
+      <div class="quiz-card" id="qz2">
+        <span class="q-badge">第 2 題 / 1-1 應用</span>
+        <div class="q-text">2. 裝在屋頂上的「太陽能光電板」，其主要的能量轉換方式為何？</div>
         <div class="options-grid">
-          <button class="opt-btn" onclick="checkAnswer(this, false, 'q2', '不對喔！夏天太陽會偏北升起，冬天會偏南升起！')">A. 正確，每天都一樣</button>
-          <button class="opt-btn" onclick="checkAnswer(this, true, 'q2', '答對了！一年中只有【春分】和【秋分】兩天是正東升、正西落！口訣：春秋正東正西落，夏天偏北冬天南。')">B. 不正確，只有春分與秋分是正東正西</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz2', '正確！太陽能光電板直接將【光能轉換為電能】；而太陽能熱水器是將熱能收集加熱水。')">A. 將太陽光能轉換為電能</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz2', '這是熱水器的功能，光電板是發電的喔！')">B. 將太陽熱能轉換為熱水</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz2', '光電板不會產生風能。')">C. 將太陽光能轉換為風能</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz2', '太陽能是外部能源，不是化學能燃燒。')">D. 將化學能轉換為熱能</button>
         </div>
-        <div class="explanation-box" id="exp-q2"></div>
+        <div class="explanation-box" id="exp-qz2"></div>
       </div>
 
       <!-- Q3 -->
-      <div class="quiz-card" id="q3">
-        <span class="q-badge">第 3 題 / 素養情境題</span>
-        <div class="q-text">Q3. 小明說：「夏天之所以那麼熱，是因為地球在夏天距離太陽比較近。」請問小明的觀念正確嗎？</div>
+      <div class="quiz-card" id="qz3">
+        <span class="q-badge">第 3 題 / 1-2 影長</span>
+        <div class="q-text">3. 晴朗的一天中，在同一地點觀測直立竿子的影子，什麼時候竿影會「最短」？</div>
         <div class="options-grid">
-          <button class="opt-btn" onclick="checkAnswer(this, false, 'q3', '錯囉！地球與太陽距離的微小變化並不是造成四季氣溫差異的主要原因！')">A. 正確，距離愈近愈熱</button>
-          <button class="opt-btn" onclick="checkAnswer(this, true, 'q3', '完全正確！四季冷熱的主要原因是【太陽照射角度（直射熱量集中 vs 斜射熱量分散）】以及【白晝日照時數長短】。')">B. 錯誤，是因為夏天高度角大（接近直射）且日照時間長</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz3', '清晨高度角小，影子很長。')">A. 清晨 6 點</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz3', '答對了！正午 12 點太陽高度角達到一天中最高，因此影子最短！')">B. 中午 12 點</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz3', '下午太陽偏西斜射，影子變長。')">C. 下午 3 點</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz3', '傍晚太陽快落下，高度角極小，影子極長。')">D. 傍晚 6 點</button>
         </div>
-        <div class="explanation-box" id="exp-q3"></div>
+        <div class="explanation-box" id="exp-qz3"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-card" id="qz4">
+        <span class="q-badge">第 4 題 / 1-2 四季方位</span>
+        <div class="q-text">4. 每年「夏至」這一天，在臺灣觀察太陽升起與落下的方位是？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz4', '正東升正西落是春分與秋分！')">A. 正東方升起、正西方落下</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz4', '太厲害了！口訣：春秋正東正西落，夏天偏北冬天南！夏至是【東偏北升起、西偏北落下】！')">B. 東偏北方升起、西偏北方落下</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz4', '東偏南升起是冬至的特徵！')">C. 東偏南方升起、西偏南方落下</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz4', '太陽永遠不會由北方升起。')">D. 正北方升起、正南方落下</button>
+        </div>
+        <div class="explanation-box" id="exp-qz4"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-card" id="qz5">
+        <span class="q-badge">第 5 題 / 1-2 迷思除錯</span>
+        <div class="q-text">5. 夏天的氣溫比冬天炎熱許多，最主要的科學原因是？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz5', '這是大迷思！地球離太陽距離變化不是主要原因！')">A. 地球在夏天時距離太陽比較近</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz5', '滿分！夏天太陽高度角大（接近直射，熱量集中），且白晝時間長達 13.5 小時！')">B. 夏天太陽高度角大（接近直射）且白天時間長</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz5', '太陽本身的燃燒是穩定的，不會在夏天燃燒更劇烈。')">C. 太陽本身在夏天燃燒得比較劇烈</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz5', '夏天雲層厚薄因天氣而異，不是主因。')">D. 夏天雲層比較少阻擋陽光</button>
+        </div>
+        <div class="explanation-box" id="exp-qz5"></div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-card" id="qz6">
+        <span class="q-badge">第 6 題 / 1-3 彩虹觀察</span>
+        <div class="q-text">6. 在校園中利用噴水器製造美麗的彩虹，下列哪一項是必須具備的成功條件？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz6', '面對太陽陽光刺眼，看不到彩虹！必須背對太陽！')">A. 觀察者必須面對太陽</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz6', '答對了！造虹三要素：充足陽光、細密水霧、觀察者背對太陽（深色背景更明顯）！')">B. 觀察者必須背對太陽，朝陰暗處噴霧</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz6', '陰天沒有充足陽光無法產生折射與色散。')">C. 必須在陰天沒有陽光的時候進行</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz6', '大水柱無法形成微小水珠反射折射。')">D. 噴水的水滴必須非常大滴</button>
+        </div>
+        <div class="explanation-box" id="exp-qz6"></div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-card" id="qz7">
+        <span class="q-badge">第 7 題 / 1-3 光的色散</span>
+        <div class="q-text">7. 白色的太陽光穿過「三稜鏡」之後，會分散成紅、橙、黃、綠、藍、靛、紫等七彩光，這證明了什麼？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz7', '三稜鏡是透明玻璃，本身沒有七彩顏色。')">A. 三稜鏡本身含有彩色顏料</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz7', '完全正確！太陽看似白色的光，其實是由多種不同色光混合而成的複合光！')">B. 太陽光是由許多不同顏色的色光所組成的</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz7', '光線雖然折射，但本質是不同色光折射率不同而分散開。')">C. 光線在三稜鏡中被染色了</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz7', '光是能量不是反射空氣顆粒。')">D. 是空氣中的灰塵造成的顏色</button>
+        </div>
+        <div class="explanation-box" id="exp-qz7"></div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-card" id="qz8">
+        <span class="q-badge">第 8 題 / 1-3 生活折射</span>
+        <div class="q-text">8. 到夜市玩撈金魚遊戲時，若朝著「看見魚的位置」筆直撈下去，通常都撈不到，這是因為？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz8', '神準！因為光從水進入空氣發生折射，魚看起來變淺了，真正的魚在更深的位置！')">A. 光的折射使水中的魚看起來比實際位置「更淺」</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz8', '折射是使物體看起來變淺，不是變深。')">B. 光的折射使水中的魚看起來比實際位置「更深」</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz8', '這是折射現象，不是反射。')">C. 水面反射造成眼睛產生幻覺</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz8', '魚游得快是生物原因，但位置偏移是物理折射。')">D. 魚游得太快是唯一原因</button>
+        </div>
+        <div class="explanation-box" id="exp-qz8"></div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-card" id="qz9">
+        <span class="q-badge">第 9 題 / 1-3 透鏡聚光</span>
+        <div class="q-text">9. 拿放大鏡在陽光下進行「聚光實驗」時，下列哪一項操作是**絕對禁止**的危險行為？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz9', '水泥地安全不易燃。')">A. 將光點投射在水泥地面上觀察</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz9', '上下調整距離是為了找到焦點。')">B. 上下移動鏡片調整光點大小</button>
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz9', '正確！焦點處溫度極高，嚴禁用手摸會燙傷，嚴禁對著易燃物長曬以免火災，更絕對不可直視太陽！')">C. 用手觸摸聚光的高溫光點，或用放大鏡直接看太陽</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz9', '在戶外晴天下是正常實驗環境。')">D. 選擇在晴天室外進行實驗</button>
+        </div>
+        <div class="explanation-box" id="exp-qz9"></div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-card" id="qz10">
+        <span class="q-badge">第 10 題 / 1-3 透鏡成像</span>
+        <div class="q-text">10. 手拿放大鏡貼近看課本文字，與拉遠距離看黑板上的大字，看到的影像特徵分別是？</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="checkAnswer(this, true, 'qz10', '全對！口訣：近看正立會放大，遠看倒立會縮小！')">A. 近看：正立放大的像；遠看：倒立縮小的像</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz10', '近看是放大的正立像喔！')">B. 近看：倒立縮小；遠看：正立放大</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz10', '放大鏡看的像會隨物距改變正倒立與大小。')">C. 無論遠近，看到的像永遠都是正立放大</button>
+          <button class="opt-btn" onclick="checkAnswer(this, false, 'qz10', '放大鏡不是凹透鏡。')">D. 無論遠近，看到的像永遠都是倒立縮小</button>
+        </div>
+        <div class="explanation-box" id="exp-qz10"></div>
       </div>
     </div>
   </section>
 
-  <!-- TAB 6: 40分鐘教學教案與過程 -->
+  <!-- TAB 6: 13節完整教案 -->
   <section class="tab-pane" id="tab-plan">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📖 40 分鐘課堂教學過程指引</div>
-        <div style="color: var(--accent); font-weight: 600;">翰林版五上自然 1-2 活動四（p.26～p.29）</div>
+        <div class="card-title">📖 第一單元《太陽的祕密》13 節完整課程計畫</div>
+        <div style="color: var(--accent); font-weight: 600;">翰林版國小自然五上（課本 p.8～41）</div>
       </div>
 
-      <div class="teach-step">
-        <span class="step-tag">階段一・引起動機（5分鐘）</span>
-        <div class="step-title">生活經驗連結：暑假 18:30 vs 寒假 17:30 天色對比</div>
-        <div class="dialogue-box">
-          <strong>師：</strong>「同學們，暑假炎熱的七八月，傍晚 6 點半甚至 7 點時外面天色如何？」<br>
-          <strong>生：</strong>「天還很亮！還可以去操場玩！」<br>
-          <strong>師：</strong>「那冬天冬至吃湯圓時，下午 5 點多走出校門呢？」<br>
-          <strong>生：</strong>「天已經全黑了！路燈都開了！」<br>
-          <strong>師：</strong>「太棒了！同一座學校，為什麼夏天白天那麼長、冬天那麼短？今天我們就來解開太陽位置改變的祕密！」
-        </div>
-      </div>
+      <div style="line-height: 1.8; font-size: 1.05rem; color: #cbd5e1;">
+        <h3 style="color: #34d399; margin: 15px 0 8px;">【1-1 太陽與生活】（共 2 節）</h3>
+        <p>• <strong>第 1 節</strong>：太陽光熱對環境與生物生存的影響（光合作用、維生素 D 合成、日晒製鹽與乾燥食物）。<br>
+        • <strong>第 2 節</strong>：太陽能在生活中的應用與綠色永續（光電板發電、太陽能熱水器集熱、沙崙綠能科技示範場域）。</p>
 
-      <div class="teach-step">
-        <span class="step-tag">階段二・發展活動一（10分鐘）</span>
-        <div class="step-title">四季四個代表日與日出日落方位</div>
-        <p style="color: #cbd5e1; line-height: 1.7;">
-          1. 介紹四季指標日：春分(3/21)、夏至(6/21)、秋分(9/23)、冬至(12/22)。<br>
-          2. 引導翻開課本 p.26，使用投影網站中的「🧭 方位羅盤」展示升落箭頭。<br>
-          3. 帶讀口訣：<strong>「春秋正東正西落，夏天偏北冬天南！」</strong>
-        </p>
-      </div>
+        <h3 style="color: #38bdf8; margin: 20px 0 8px;">【1-2 太陽的位置變化】（共 6 節）</h3>
+        <p>• <strong>第 3 節</strong>：太陽與影子的關係（一）— 觀察校園樹影變化、古代計時日晷認識。<br>
+        • <strong>第 4 節</strong>：太陽與影子的關係（二）— 光源與影子反向規律、照射角度與影長成反比。<br>
+        • <strong>第 5～7 節</strong>：一天中太陽位置的改變 — 指北針校準、竿影高度角觀測器組裝、戶外定時觀測實作（東升西落、中午偏南最高）與折線圖繪製。<br>
+        • <strong>第 8 節</strong>：不同季節太陽位置的改變 — 四季代表日（春分、夏至、秋分、冬至）、嘉義四季資料表、天球圖與直射斜射規律。</p>
 
-      <div class="teach-step">
-        <span class="step-tag">階段三・發展活動二（12分鐘）</span>
-        <div class="step-title">嘉義觀測資料表分析與直射斜射實驗</div>
-        <p style="color: #cbd5e1; line-height: 1.7;">
-          1. 投影課本 p.27 資料表，引導小組找出夏至白晝 13.5h、冬至 10.5h。<br>
-          2. 切換至網站「🔦 直射斜射實驗室」，拖動手電筒斜角，直觀感受光斑面積與熱量集中度。<br>
-          3. 破解迷思：四季冷熱由照射角度（高度角大小）與日照時數決定，不是距離近！
-        </p>
-      </div>
-
-      <div class="teach-step">
-        <span class="step-tag">階段四・發展活動三（8分鐘）</span>
-        <div class="step-title">天球立體運行軌跡比劃體驗</div>
-        <p style="color: #cbd5e1; line-height: 1.7;">
-          1. 請全體學生面向南方，舉右手比劃夏至弧線（高又長）與冬至弧線（低又短）。<br>
-          2. 統整：臺灣正午太陽幾乎都偏向南方天空，影子一定指向北方！
-        </p>
-      </div>
-
-      <div class="teach-step">
-        <span class="step-tag">階段五・綜合活動（5分鐘）</span>
-        <div class="step-title">課堂隨堂搶答與指派習作</div>
-        <p style="color: #cbd5e1; line-height: 1.7;">
-          1. 切換至網站「🎮 課堂搶答」進行 3 題全班互動。<br>
-          2. 指派作業：完成學習單與自然習作 p.12~13。
-        </p>
+        <h3 style="color: #c084fc; margin: 20px 0 8px;">【1-3 光的折射】（共 5 節）</h3>
+        <p>• <strong>第 9～10 節</strong>：陽光是由不同色光組成嗎？— 彩虹成因探究、背對太陽噴水器造虹實作、三稜鏡色散原理（七色複合光）。<br>
+        • <strong>第 11 節</strong>：光的行進路線會改變嗎？— 水中吸管折斷、夜市撈魚視深變淺、介質定義、雷射跨介質斜射偏折現象。<br>
+        • <strong>第 12～13 節</strong>：放大鏡如何聚光和成像？— 凸透鏡特徵、聚光焦點安全實作（防燙防燃）、透鏡成像（近正大、遠倒小）與單元統整複習。</p>
       </div>
     </div>
   </section>
 
-  <!-- TAB 7: 學生學習單預覽與列印 -->
+  <!-- TAB 7: 課堂學習單 -->
   <section class="tab-pane" id="tab-worksheet">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📝 學生課堂探究學習單</div>
+        <div class="card-title">📝 學生課堂探究任務單（全單元）</div>
         <button class="action-btn" onclick="window.print()" style="background: #10b981;">🖨️ 直接列印學習單</button>
       </div>
 
       <div style="background: rgba(15, 23, 42, 0.6); padding: 24px; border-radius: 12px; border: 1px solid var(--border); line-height: 1.9; font-size: 1.1rem;">
         <div style="text-align: center; margin-bottom: 20px;">
-          <h2 style="color: #fff; font-size: 1.5rem;">國小自然五上【不同季節太陽位置的改變】探究學習單</h2>
+          <h2 style="color: #fff; font-size: 1.5rem;">國小自然五上第一單元【太陽的祕密】綜合探究學習單</h2>
           <div style="color: var(--text-muted); margin-top: 6px;">五年 _____ 班 _____ 號 姓名：________________ 得分：__________</div>
         </div>
 
-        <h4 style="color: var(--accent); margin-top: 15px;">【任務一】生活經驗觀測站</h4>
-        <p>1. 暑假傍晚 6:30 天色通常很（　　）；寒假冬至 5:30 天色通常已經（　　）。（填：亮 / 黑）</p>
-        <p>2. 一年四季中，夏天的白天比較（　　），冬天的白天比較（　　）。（填：長 / 短）</p>
+        <h4 style="color: #34d399; margin-top: 15px;">【1-1 太陽與生活】概念填空</h4>
+        <p>1. 植物利用葉綠體進行（　　　　　）作用，吸收陽光製造葡萄糖並釋放（　　　）氣。</p>
+        <p>2. 人體皮膚適度照射陽光，能自行合成維生素（　　），幫助骨骼吸收鈣質。</p>
+        <p>3. 太陽能光電板是將太陽的（　　）能轉換成（　　）能，是永續的綠色能源。</p>
 
-        <h4 style="color: var(--accent); margin-top: 20px;">【任務二】四季代表日大偵探（填寫表格）</h4>
-        <p>• 春分：日出（　　　）、日落（　　　），白天（　　）小時，正午高度角約 66°。</p>
-        <p>• 夏至：日出（　　　）、日落（　　　），白天（　　）小時，正午高度角最高約（　　）°，影子最（　　）。</p>
-        <p>• 冬至：日出（　　　）、日落（　　　），白天（　　）小時，正午高度角最低約（　　）°，影子最（　　）。</p>
+        <h4 style="color: #38bdf8; margin-top: 20px;">【1-2 太陽位置規律】大挑戰</h4>
+        <p>1. 一天中，太陽大致由（　　）方升起，（　　）方落下；中午時高度角最（　　），影子最（　　）。</p>
+        <p>2. 四季口訣填空：春秋兩季在（　　　）升、（　　　）落；夏天偏（　　）、冬天偏（　　）。</p>
+        <p>3. 夏至正午 12 點時，操場上的旗桿影子比冬至正午（　　　）。（填：長 / 短）</p>
 
-        <h4 style="color: var(--accent); margin-top: 20px;">【任務三】大口訣填空</h4>
-        <p style="font-weight: bold; color: #fef08a;">「春秋正東正西落，夏天偏（　　）冬天（　　）！」</p>
+        <h4 style="color: #c084fc; margin-top: 20px;">【1-3 光的折射與透鏡】實驗記錄</h4>
+        <p>1. 用噴水器製造彩虹時，觀察者必須（　　　）太陽。（填：面對 / 背對）</p>
+        <p>2. 光從空氣斜斜射入水中時，在交界面會產生（　　　）現象；水中的吸管看起來像（　　　）一樣。</p>
+        <p>3. 放大鏡是中間厚、邊緣薄的（　　　）透鏡；貼近看書本字體會（　　　），拉遠看窗外景物會（　　　）。</p>
       </div>
     </div>
   </section>
 </main>
 
 <script>
-  // 音效系統
+  // 音效系統 (Web Audio API)
   let soundEnabled = true;
   let audioCtx = null;
   function getAudioContext() {
@@ -723,9 +937,9 @@
     } catch(e){}
   }
   function playSuccess() {
-    playBeep(523.25, "sine", 0.15);
-    setTimeout(() => playBeep(659.25, "sine", 0.15), 100);
-    setTimeout(() => playBeep(783.99, "sine", 0.3), 200);
+    playBeep(523.25, "sine", 0.12);
+    setTimeout(() => playBeep(659.25, "sine", 0.12), 90);
+    setTimeout(() => playBeep(783.99, "sine", 0.25), 180);
   }
   function playWrong() {
     playBeep(220, "triangle", 0.25);
@@ -740,12 +954,17 @@
     document.querySelectorAll(".nav-tab").forEach(tab => tab.classList.remove("active"));
     document.querySelectorAll(".tab-pane").forEach(pane => pane.classList.remove("active"));
     
-    event.currentTarget.classList.add("active");
-    document.getElementById(tabId).classList.add("active");
+    // 找到對應 tab 按鈕
+    const btn = Array.from(document.querySelectorAll(".nav-tab")).find(b => b.getAttribute("onclick").includes(tabId));
+    if (btn) btn.classList.add("active");
+    
+    const targetPane = document.getElementById(tabId);
+    if (targetPane) targetPane.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if (tabId === "tab-sphere") drawSphere();
-    if (tabId === "tab-angle") drawAngleLab();
-    if (tabId === "tab-compass") drawCompass();
+    if (tabId === "tab-1-1") drawScene11();
+    if (tabId === "tab-1-2") { resizeSphereCanvas(); drawAngleLab(); drawCompass(); }
+    if (tabId === "tab-1-3") drawLab13();
   }
 
   function toggleFullscreen() {
@@ -756,7 +975,114 @@
     }
   }
 
-  // --- 模組 1: 天球 Canvas 動態模擬器 ---
+  // --- 1-1 互動場景 ---
+  let scene11Type = "photo";
+  const scene11Canvas = document.getElementById("scene11Canvas");
+  const ctx11 = scene11Canvas.getContext("2d");
+
+  function set11Scene(type) {
+    scene11Type = type;
+    document.querySelectorAll("#btn-11-photo, #btn-11-vit, #btn-11-salt, #btn-11-solar").forEach(b => b.classList.remove("active"));
+    document.getElementById("btn-11-" + type).classList.add("active");
+
+    const infoBox = document.getElementById("scene11Info");
+    if (type === "photo") {
+      infoBox.innerHTML = `
+        <h4 style="color:#34d399; font-size:1.2rem;">🌿 植物光合作用（能量製造者）</h4>
+        <p>• <strong>原料</strong>：吸收根部的水分 + 葉片氣孔吸收二氧化碳 + 葉綠體捕捉陽光。</p>
+        <p>• <strong>產物</strong>：製造出生物所需的<strong>葡萄糖養分</strong>，並釋放維持生命的<strong>氧氣</strong>！</p>
+        <p>• 沒有陽光，地球上的植物無法生長，草食與肉食動物也將失去食物來源。</p>
+      `;
+    } else if (type === "vit") {
+      infoBox.innerHTML = `
+        <h4 style="color:#fbbf24; font-size:1.2rem;">🦴 陽光維生素：維生素 D</h4>
+        <p>• 人體皮膚在適度接受太陽紫外線照射下，能自行合成<strong>維生素 D</strong>。</p>
+        <p>• 維生素 D 能促進腸道吸收鈣質，強化骨骼與牙齒生長，預防骨質疏鬆與佝僂病。</p>
+        <p>• 建議每天適度日晒約 <strong>15 分鐘</strong>，不需曝曬過久以免曬傷。</p>
+      `;
+    } else if (type === "salt") {
+      infoBox.innerHTML = `
+        <h4 style="color:#38bdf8; font-size:1.2rem;">🧂 日晒製鹽與水分蒸發應用</h4>
+        <p>• <strong>七股鹽田傳統日晒法</strong>：將海水引進蒸發池與結晶池，利用太陽熱能蒸發水分，析出天然粗鹽結晶！</p>
+        <p>• <strong>生活曬乾</strong>：利用太陽熱能蒸發衣物、柿餅、蝦乾魚乾的水分，達到防腐保存與乾燥效果。</p>
+      `;
+    } else {
+      infoBox.innerHTML = `
+        <h4 style="color:#c084fc; font-size:1.2rem;">🔋 永續綠能科技：太陽能</h4>
+        <p>• <strong>光能轉電能</strong>：太陽能光電板供應路燈、電動車、建築甚至人造衛星電力。</p>
+        <p>• <strong>熱能集熱器</strong>：太陽能熱水器利用吸熱板將冷水加熱，節省天然氣與用電。</p>
+        <p>• <strong>沙崙綠能科技示範場域</strong>：結合智慧綠生活，展現臺灣零碳永續科技！</p>
+      `;
+    }
+    drawScene11();
+  }
+
+  function drawScene11() {
+    const w = scene11Canvas.parentElement.getBoundingClientRect().width;
+    const h = 380;
+    scene11Canvas.width = w * window.devicePixelRatio;
+    scene11Canvas.height = h * window.devicePixelRatio;
+    ctx11.scale(window.devicePixelRatio, window.devicePixelRatio);
+    ctx11.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h / 2;
+
+    // 繪製太陽
+    ctx11.beginPath();
+    ctx11.arc(cx - 150, 80, 36, 0, Math.PI * 2);
+    ctx11.fillStyle = "#fbbf24";
+    ctx11.shadowColor = "#f59e0b";
+    ctx11.shadowBlur = 25;
+    ctx11.fill();
+    ctx11.shadowBlur = 0;
+
+    // 光線射線
+    ctx11.strokeStyle = "rgba(251, 191, 36, 0.4)";
+    ctx11.lineWidth = 3;
+    ctx11.beginPath();
+    ctx11.moveTo(cx - 150, 80); ctx11.lineTo(cx, cy + 40);
+    ctx11.stroke();
+
+    if (scene11Type === "photo") {
+      // 繪製大綠葉
+      ctx11.beginPath();
+      ctx11.ellipse(cx + 30, cy + 50, 110, 60, Math.PI / 6, 0, Math.PI * 2);
+      ctx11.fillStyle = "#10b981";
+      ctx11.fill();
+      ctx11.strokeStyle = "#047857";
+      ctx11.lineWidth = 3;
+      ctx11.stroke();
+
+      ctx11.fillStyle = "#fff";
+      ctx11.font = "bold 15px sans-serif";
+      ctx11.textAlign = "center";
+      ctx11.fillText("吸收：水 (H2O) + 二氧化碳 (CO2)", cx + 30, cy + 35);
+      ctx11.fillText("釋放：氧氣 (O2) 產出：葡萄糖", cx + 30, cy + 65);
+    } else if (scene11Type === "solar") {
+      // 繪製太陽能板
+      ctx11.save();
+      ctx11.translate(cx + 30, cy + 50);
+      ctx11.rotate(-Math.PI / 12);
+      ctx11.fillStyle = "#1e3a8a";
+      ctx11.fillRect(-70, -40, 140, 80);
+      ctx11.strokeStyle = "#38bdf8";
+      ctx11.lineWidth = 2;
+      ctx11.strokeRect(-70, -40, 140, 80);
+      ctx11.restore();
+
+      ctx11.fillStyle = "#fef08a";
+      ctx11.font = "bold 16px sans-serif";
+      ctx11.fillText("光電轉換 ⚡ 電流產生", cx + 30, cy + 120);
+    } else {
+      ctx11.fillStyle = "#bae6fd";
+      ctx11.font = "bold 18px sans-serif";
+      ctx11.textAlign = "center";
+      ctx11.fillText("☀️ 太陽熱能正加速水分子蒸發與能量合成！", cx, cy + 80);
+    }
+  }
+
+  // --- 1-2 天球模擬器 ---
   const sphereCanvas = document.getElementById("sphereCanvas");
   const sCtx = sphereCanvas.getContext("2d");
   let currentSeason = "summer";
@@ -771,16 +1097,11 @@
     sCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
     drawSphere();
   }
-  window.addEventListener("resize", () => {
-    resizeSphereCanvas();
-    drawAngleLab();
-    drawCompass();
-  });
 
   function setSeason(season) {
     currentSeason = season;
-    document.querySelectorAll(".season-btn").forEach(btn => btn.classList.remove("active"));
-    document.querySelector(".season-btn." + (season === "spring" ? "spring" : season)).classList.add("active");
+    document.querySelectorAll("#btn-season-summer, #btn-season-spring, #btn-season-winter").forEach(b => b.classList.remove("active"));
+    document.getElementById("btn-season-" + season).classList.add("active");
     drawSphere();
     updateStats();
   }
@@ -829,14 +1150,7 @@
   function updateStats() {
     const alt = getSunAltitude(currentSeason, currentTime);
     document.getElementById("altitudeVal").textContent = alt;
-    
-    let shadowLen = 0;
-    if (alt > 0) {
-      const rad = alt * Math.PI / 180;
-      shadowLen = (1 / Math.tan(rad)).toFixed(2);
-    } else {
-      shadowLen = "無影子";
-    }
+    let shadowLen = (alt > 0) ? (1 / Math.tan(alt * Math.PI / 180)).toFixed(2) : "無影子";
     document.getElementById("shadowLenVal").textContent = shadowLen;
 
     if (currentTime < 11.5) {
@@ -853,13 +1167,13 @@
 
   function drawSphere() {
     const w = sphereCanvas.parentElement.getBoundingClientRect().width;
-    const h = 480;
+    const h = 440;
     sCtx.clearRect(0, 0, w, h);
 
     const cx = w / 2;
     const cy = h * 0.72;
-    const rx = Math.min(w * 0.42, 240);
-    const ry = 80;
+    const rx = Math.min(w * 0.42, 230);
+    const ry = 75;
     const sphereR = rx;
 
     // 地面橢圓
@@ -872,12 +1186,12 @@
     sCtx.stroke();
 
     sCtx.fillStyle = "#94a3b8";
-    sCtx.font = "bold 15px sans-serif";
+    sCtx.font = "bold 14px sans-serif";
     sCtx.textAlign = "center";
     sCtx.fillText("東 (E)", cx - rx - 20, cy + 5);
     sCtx.fillText("西 (W)", cx + rx + 20, cy + 5);
-    sCtx.fillText("南 (S)", cx, cy + ry + 22);
-    sCtx.fillText("北 (N)", cx, cy - ry - 12);
+    sCtx.fillText("南 (S)", cx, cy + ry + 20);
+    sCtx.fillText("北 (N)", cx, cy - ry - 10);
 
     // 天球網格
     sCtx.beginPath();
@@ -888,40 +1202,17 @@
     sCtx.stroke();
     sCtx.setLineDash([]);
 
-    sCtx.fillStyle = "#38bdf8";
-    sCtx.fillText("天頂 (90°)", cx, cy - sphereR - 10);
-
     const drawOrbit = (seasonType, color, isCurrent) => {
       sCtx.beginPath();
       sCtx.strokeStyle = color;
       sCtx.lineWidth = isCurrent ? 4 : 1.5;
-      sCtx.shadowColor = isCurrent ? color : "transparent";
-      sCtx.shadowBlur = isCurrent ? 15 : 0;
-
-      let yOffset = 0, xSkew = 0;
-      if (seasonType === "summer") { yOffset = -sphereR * 0.92; xSkew = -15; }
+      let yOffset = -sphereR * 0.92, xSkew = -15;
       if (seasonType === "spring") { yOffset = -sphereR * 0.68; xSkew = 0; }
       if (seasonType === "winter") { yOffset = -sphereR * 0.45; xSkew = 20; }
 
-      const startX = cx - rx * 0.95;
-      const startY = cy;
-      const endX = cx + rx * 0.95;
-      const endY = cy;
-      const topX = cx + xSkew;
-      const topY = cy + yOffset;
-
-      sCtx.beginPath();
-      sCtx.moveTo(startX, startY);
-      sCtx.quadraticCurveTo(topX, topY, endX, endY);
+      sCtx.moveTo(cx - rx * 0.95, cy);
+      sCtx.quadraticCurveTo(cx + xSkew, cy + yOffset, cx + rx * 0.95, cy);
       sCtx.stroke();
-      sCtx.shadowBlur = 0;
-
-      sCtx.fillStyle = color;
-      sCtx.font = "bold 12px sans-serif";
-      sCtx.fillText(
-        seasonType === "summer" ? "夏至軌跡 (最高/最長)" : (seasonType === "winter" ? "冬至軌跡 (最低/最短)" : "春秋分軌跡"),
-        topX, topY - 8
-      );
     };
 
     drawOrbit("winter", "rgba(56, 189, 248, 0.5)", currentSeason === "winter");
@@ -941,31 +1232,26 @@
     const sunY = (1 - tNorm) * (1 - tNorm) * p0.y + 2 * (1 - tNorm) * tNorm * p1.y + tNorm * tNorm * p2.y;
 
     sCtx.beginPath();
-    sCtx.arc(sunX, sunY, 14, 0, Math.PI * 2);
+    sCtx.arc(sunX, sunY, 13, 0, Math.PI * 2);
     sCtx.fillStyle = "#fbbf24";
     sCtx.shadowColor = "#f59e0b";
     sCtx.shadowBlur = 20;
     sCtx.fill();
     sCtx.shadowBlur = 0;
 
-    const poleH = 50;
+    const poleH = 45;
     sCtx.beginPath();
     sCtx.moveTo(cx, cy);
     sCtx.lineTo(cx, cy - poleH);
     sCtx.lineWidth = 4;
     sCtx.strokeStyle = "#f8fafc";
     sCtx.stroke();
-    sCtx.fillStyle = "#ef4444";
-    sCtx.beginPath();
-    sCtx.arc(cx, cy - poleH, 5, 0, Math.PI * 2);
-    sCtx.fill();
 
     const alt = getSunAltitude(currentSeason, currentTime);
     if (alt > 0) {
       const rad = alt * Math.PI / 180;
-      const shLen = Math.min((poleH / Math.tan(rad)), 180);
+      const shLen = Math.min((poleH / Math.tan(rad)), 170);
       const angleOnGround = Math.atan2((currentTime - 12), 4);
-      
       const shadowEndX = cx + Math.sin(angleOnGround) * shLen * 1.5;
       const shadowEndY = cy - Math.cos(angleOnGround) * (shLen * 0.5);
 
@@ -976,100 +1262,259 @@
       sCtx.strokeStyle = "rgba(15, 23, 42, 0.85)";
       sCtx.lineCap = "round";
       sCtx.stroke();
-
-      sCtx.fillStyle = "#38bdf8";
-      sCtx.font = "bold 11px sans-serif";
-      sCtx.fillText("竿影", shadowEndX, shadowEndY + 12);
     }
   }
 
-  // --- 模組 2: 直射 vs 斜射實驗室 ---
+  // --- 1-3 光學實驗室 ---
+  let lab13Type = "rainbow";
+  const lab13Canvas = document.getElementById("lab13Canvas");
+  const ctx13 = lab13Canvas.getContext("2d");
+  let lensDist = 120; // 放大鏡物距
+
+  function set13Lab(type) {
+    lab13Type = type;
+    document.querySelectorAll("#btn-13-rainbow, #btn-13-prism, #btn-13-refract, #btn-13-lens").forEach(b => b.classList.remove("active"));
+    document.getElementById("btn-13-" + type).classList.add("active");
+
+    const ctrlBox = document.getElementById("lab13Control");
+    const infoBox = document.getElementById("lab13Info");
+
+    if (type === "rainbow") {
+      ctrlBox.innerHTML = `
+        <button class="action-btn" onclick="sprayWater()" style="background:#0284c7; font-size:1.05rem; padding:10px 20px;">💦 按下噴水器製造細霧</button>
+      `;
+      infoBox.innerHTML = `
+        <h4 style="color:#fbbf24;">🌈 造虹三要素探究</h4>
+        <p>1. <strong>陽光充足</strong>：提供強烈白光。<br>
+        2. <strong>細密水霧</strong>：水珠充當微小三稜鏡。<br>
+        3. <strong>觀察者背向太陽</strong>：光線在水滴內部經折射與反射，朝背向方向射出！</p>
+      `;
+    } else if (type === "prism") {
+      ctrlBox.innerHTML = `
+        <div style="font-size:1.05rem; color:#38bdf8; font-weight:bold;">🔺 三稜鏡色散展示</div>
+      `;
+      infoBox.innerHTML = `
+        <h4 style="color:#c084fc;">🎨 陽光是由不同色光組成的！</h4>
+        <p>白色陽光進入三稜鏡後，因紅光偏折角度最小、紫光偏折角度最大，因而分散成紅、橙、黃、綠、藍、靛、紫七彩光譜！</p>
+      `;
+    } else if (type === "refract") {
+      ctrlBox.innerHTML = `
+        <div style="font-size:1.05rem; color:#34d399; font-weight:bold;">🥤 水中折射與夜市撈魚</div>
+      `;
+      infoBox.innerHTML = `
+        <h4 style="color:#34d399;">🐠 為什麼朝看到魚的位置撈不到？</h4>
+        <p>因為光從水進入空氣時發生<strong>折射</strong>，眼睛看到的魚比實際位置<strong>更淺</strong>！真正的魚在更深處！</p>
+      `;
+    } else {
+      ctrlBox.innerHTML = `
+        <div class="slider-wrap">
+          <div class="slider-head">
+            <span class="slider-title">調整放大鏡與物體距離：</span>
+            <span class="slider-val" id="lensDistVal">${lensDist} px</span>
+          </div>
+          <input type="range" min="40" max="220" value="${lensDist}" oninput="updateLensDist(this.value)">
+        </div>
+      `;
+      infoBox.innerHTML = `
+        <h4 style="color:#f87171;">🔍 凸透鏡聚光與成像規律</h4>
+        <p>• <strong>聚光</strong>：平行光通過凸透鏡會向中間折射匯聚於<strong>焦點</strong>（注意防燙防燃！）。<br>
+        • <strong>靠近物體（近）</strong>：成<strong>正立放大</strong>的像。<br>
+        • <strong>拉開距離（遠）</strong>：成<strong>倒立縮小</strong>的像。</p>
+      `;
+    }
+    drawLab13();
+  }
+
+  function updateLensDist(v) {
+    lensDist = parseInt(v);
+    document.getElementById("lensDistVal").textContent = lensDist + " px";
+    drawLab13();
+  }
+
+  let isSpraying = false;
+  function sprayWater() {
+    isSpraying = true;
+    drawLab13();
+    setTimeout(() => { isSpraying = false; drawLab13(); }, 1500);
+  }
+
+  function drawLab13() {
+    const w = lab13Canvas.parentElement.getBoundingClientRect().width;
+    const h = 420;
+    lab13Canvas.width = w * window.devicePixelRatio;
+    lab13Canvas.height = h * window.devicePixelRatio;
+    ctx13.scale(window.devicePixelRatio, window.devicePixelRatio);
+    ctx13.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h / 2;
+
+    if (lab13Type === "rainbow") {
+      // 太陽
+      ctx13.fillStyle = "#fbbf24";
+      ctx13.beginPath(); ctx13.arc(60, 60, 30, 0, Math.PI * 2); ctx13.fill();
+      
+      // 人物背向太陽
+      ctx13.fillStyle = "#38bdf8";
+      ctx13.fillRect(cx - 80, cy + 20, 24, 60);
+      ctx13.beginPath(); ctx13.arc(cx - 68, cy + 10, 14, 0, Math.PI * 2); ctx13.fill();
+
+      ctx13.fillStyle = "#fff";
+      ctx13.font = "bold 13px sans-serif";
+      ctx13.fillText("觀察者 (背向太陽)", cx - 68, cy + 105);
+
+      if (isSpraying) {
+        // 噴出水霧
+        ctx13.fillStyle = "rgba(255, 255, 255, 0.4)";
+        for (let i = 0; i < 50; i++) {
+          ctx13.fillRect(cx + Math.random() * 120, cy - 60 + Math.random() * 140, 3, 3);
+        }
+        // 彩虹弧
+        const colors = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#a855f7"];
+        colors.forEach((c, idx) => {
+          ctx13.beginPath();
+          ctx13.arc(cx + 60, cy + 80, 90 + idx * 7, Math.PI * 1.1, Math.PI * 1.8);
+          ctx13.strokeStyle = c;
+          ctx13.lineWidth = 6;
+          ctx13.stroke();
+        });
+      } else {
+        ctx13.fillStyle = "#94a3b8";
+        ctx13.font = "bold 15px sans-serif";
+        ctx13.fillText("點擊上方「噴水器」按鈕噴出水霧！", cx + 40, cy);
+      }
+    } else if (lab13Type === "prism") {
+      // 三稜鏡三角形
+      ctx13.beginPath();
+      ctx13.moveTo(cx, cy - 80);
+      ctx13.lineTo(cx - 70, cy + 70);
+      ctx13.lineTo(cx + 70, cy + 70);
+      ctx13.closePath();
+      ctx13.fillStyle = "rgba(56, 189, 248, 0.25)";
+      ctx13.fill();
+      ctx13.strokeStyle = "#38bdf8";
+      ctx13.lineWidth = 3;
+      ctx13.stroke();
+
+      // 入射白光
+      ctx13.beginPath();
+      ctx13.moveTo(40, cy - 20);
+      ctx13.lineTo(cx - 35, cy - 5);
+      ctx13.strokeStyle = "#fff";
+      ctx13.lineWidth = 5;
+      ctx13.stroke();
+      ctx13.fillStyle = "#fff";
+      ctx13.fillText("太陽白光", 70, cy - 35);
+
+      // 色散彩虹
+      const colors = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#a855f7"];
+      colors.forEach((c, idx) => {
+        ctx13.beginPath();
+        ctx13.moveTo(cx + 25, cy - 10 + idx * 4);
+        ctx13.lineTo(w - 50, cy - 60 + idx * 22);
+        ctx13.strokeStyle = c;
+        ctx13.lineWidth = 4;
+        ctx13.stroke();
+      });
+    } else if (lab13Type === "refract") {
+      // 水面分割
+      const waterY = cy + 20;
+      ctx13.fillStyle = "rgba(2, 132, 199, 0.35)";
+      ctx13.fillRect(0, waterY, w, h - waterY);
+
+      ctx13.fillStyle = "#38bdf8";
+      ctx13.font = "bold 14px sans-serif";
+      ctx13.fillText("空氣 (介質一)", 60, waterY - 20);
+      ctx13.fillText("水 (介質二)", 60, waterY + 40);
+
+      // 魚與虛像
+      ctx13.fillStyle = "rgba(248, 113, 113, 0.4)";
+      ctx13.fillText("👁️ 看見的虛像 (看起來較淺)", cx + 60, waterY + 40);
+      ctx13.fillStyle = "#ef4444";
+      ctx13.fillText("🐟 真正的魚 (實際在深處)", cx + 60, waterY + 110);
+    } else {
+      // 放大鏡聚光/成像
+      ctx13.fillStyle = "#94a3b8";
+      ctx13.fillText("物體（文字）", 80, cy);
+      ctx13.fillStyle = "#fff";
+      ctx13.font = "bold 24px sans-serif";
+      ctx13.fillText("大", 110, cy);
+
+      // 凸透鏡
+      const lensX = 110 + lensDist;
+      ctx13.beginPath();
+      ctx13.ellipse(lensX, cy, 14, 70, 0, 0, Math.PI * 2);
+      ctx13.fillStyle = "rgba(56, 189, 248, 0.3)";
+      ctx13.fill();
+      ctx13.strokeStyle = "#38bdf8";
+      ctx13.lineWidth = 3;
+      ctx13.stroke();
+
+      // 看到的像
+      ctx13.fillStyle = "#fef08a";
+      if (lensDist < 100) {
+        ctx13.font = "bold 46px sans-serif";
+        ctx13.fillText("大", lensX + 80, cy + 10);
+        ctx13.font = "14px sans-serif";
+        ctx13.fillText("正立放大的像 (近)", lensX + 80, cy + 50);
+      } else {
+        ctx13.save();
+        ctx13.translate(lensX + 80, cy);
+        ctx13.scale(1, -1); // 倒立
+        ctx13.font = "bold 18px sans-serif";
+        ctx13.fillText("大", 0, 0);
+        ctx13.restore();
+        ctx13.font = "14px sans-serif";
+        ctx13.fillText("倒立縮小的像 (遠)", lensX + 80, cy + 40);
+      }
+    }
+  }
+
+  // --- 輔助儀表與直射斜射 ---
   const lightCanvas = document.getElementById("lightAngleCanvas");
   const lCtx = lightCanvas.getContext("2d");
   let currentAngle = 89;
 
   function updateAngle(val) {
     currentAngle = parseInt(val);
-    let label = currentAngle + "°";
-    if (currentAngle >= 85) label += " (夏至直射)";
-    else if (currentAngle <= 45) label += " (冬至斜射)";
-    else label += " (春/秋分)";
-    document.getElementById("angleDisplay").textContent = label;
-
-    const rad = currentAngle * Math.PI / 180;
-    const areaRatio = (1 / Math.sin(rad)).toFixed(1);
-    const heatPercent = Math.round(Math.sin(rad) * 100);
-
-    document.getElementById("spotAreaVal").textContent = areaRatio + " 倍";
-    document.getElementById("heatVal").textContent = heatPercent;
+    document.getElementById("angleDisplay").textContent = currentAngle + "°";
     drawAngleLab();
   }
 
   function drawAngleLab() {
     const w = lightCanvas.parentElement.getBoundingClientRect().width;
-    const h = 420;
+    const h = 300;
     lightCanvas.width = w * window.devicePixelRatio;
     lightCanvas.height = h * window.devicePixelRatio;
     lCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
     lCtx.clearRect(0, 0, w, h);
 
-    const groundY = h * 0.78;
+    const groundY = h * 0.8;
     const cx = w * 0.5;
 
     lCtx.beginPath();
-    lCtx.moveTo(40, groundY);
-    lCtx.lineTo(w - 40, groundY);
-    lCtx.lineWidth = 4;
-    lCtx.strokeStyle = "#475569";
-    lCtx.stroke();
-
-    lCtx.fillStyle = "#94a3b8";
-    lCtx.font = "bold 14px sans-serif";
-    lCtx.fillText("地表地面", 45, groundY + 25);
+    lCtx.moveTo(20, groundY); lCtx.lineTo(w - 20, groundY);
+    lCtx.lineWidth = 3; lCtx.strokeStyle = "#475569"; lCtx.stroke();
 
     const rad = currentAngle * Math.PI / 180;
-    const dist = 220;
-    const torchX = cx - Math.cos(rad) * dist;
-    const torchY = groundY - Math.sin(rad) * dist;
-
-    const beamW = 40;
-    const spotW = beamW / Math.sin(rad);
+    const torchX = cx - Math.cos(rad) * 160;
+    const torchY = groundY - Math.sin(rad) * 160;
+    const spotW = 30 / Math.sin(rad);
 
     lCtx.beginPath();
-    lCtx.moveTo(torchX - 15, torchY);
-    lCtx.lineTo(torchX + 15, torchY);
+    lCtx.moveTo(torchX, torchY);
     lCtx.lineTo(cx + spotW, groundY);
     lCtx.lineTo(cx - spotW, groundY);
     lCtx.closePath();
-
-    const grad = lCtx.createLinearGradient(torchX, torchY, cx, groundY);
-    grad.addColorStop(0, "rgba(251, 191, 36, 0.8)");
-    grad.addColorStop(1, "rgba(239, 68, 68, 0.4)");
-    lCtx.fillStyle = grad;
+    lCtx.fillStyle = "rgba(251, 191, 36, 0.45)";
     lCtx.fill();
-
-    lCtx.save();
-    lCtx.translate(torchX, torchY);
-    lCtx.rotate(Math.PI / 2 - rad);
-    lCtx.fillStyle = "#38bdf8";
-    lCtx.fillRect(-15, -30, 30, 30);
-    lCtx.restore();
 
     lCtx.beginPath();
-    lCtx.ellipse(cx, groundY, spotW, 12, 0, 0, Math.PI * 2);
-    lCtx.fillStyle = currentAngle > 70 ? "#ef4444" : (currentAngle > 50 ? "#f59e0b" : "#38bdf8");
-    lCtx.shadowColor = lCtx.fillStyle;
-    lCtx.shadowBlur = 20;
+    lCtx.ellipse(cx, groundY, spotW, 8, 0, 0, Math.PI * 2);
+    lCtx.fillStyle = currentAngle > 70 ? "#ef4444" : "#f59e0b";
     lCtx.fill();
-    lCtx.shadowBlur = 0;
-
-    lCtx.fillStyle = "#f8fafc";
-    lCtx.font = "bold 14px sans-serif";
-    lCtx.textAlign = "center";
-    lCtx.fillText(`受光面積: ${spotW.toFixed(0)} px`, cx, groundY + 45);
   }
 
-  // --- 模組 3: 羅盤方位 ---
   const compCanvas = document.getElementById("compassCanvas");
   const cCtx = compCanvas.getContext("2d");
   let compSeason = "summer";
@@ -1080,107 +1525,47 @@
     if (s === "summer") document.getElementById("compSummerBtn").classList.add("active");
     if (s === "spring") document.getElementById("compSpringBtn").classList.add("active");
     if (s === "winter") document.getElementById("compWinterBtn").classList.add("active");
-
-    const t = document.getElementById("compSeasonTitle");
-    const l = document.getElementById("compDetailList");
-    if (s === "summer") {
-      t.textContent = "夏至 (約6月21日前後)"; t.style.color = "#f87171";
-      l.innerHTML = `
-        <li>🌅 <strong>日出方位</strong>：東偏北 (約 69°)</li>
-        <li>🌄 <strong>日落方位</strong>：西偏北 (約 291°)</li>
-        <li>⏳ <strong>白晝長度</strong>：約 13 小時 35 分（全年中白天最長）</li>
-        <li>☀️ <strong>正午高度角</strong>：約 89°（幾乎在正頭頂直射）</li>
-      `;
-    } else if (s === "spring") {
-      t.textContent = "春分 / 秋分 (3/21, 9/23)"; t.style.color = "#34d399";
-      l.innerHTML = `
-        <li>🌅 <strong>日出方位</strong>：正東方 (90°)</li>
-        <li>🌄 <strong>日落方位</strong>：正西方 (270°)</li>
-        <li>⏳ <strong>白晝長度</strong>：約 12 小時（晝夜等長）</li>
-        <li>☀️ <strong>正午高度角</strong>：約 66°（高度角適中）</li>
-      `;
-    } else {
-      t.textContent = "冬至 (約12月22日前後)"; t.style.color = "#38bdf8";
-      l.innerHTML = `
-        <li>🌅 <strong>日出方位</strong>：東偏南 (約 118°)</li>
-        <li>🌄 <strong>日落方位</strong>：西偏南 (約 242°)</li>
-        <li>⏳ <strong>白晝長度</strong>：約 10.5 小時（白天最短）</li>
-        <li>☀️ <strong>正午高度角</strong>：約 42°（高度角最低，嚴重斜射）</li>
-      `;
-    }
     drawCompass();
   }
 
   function drawCompass() {
     const w = compCanvas.parentElement.getBoundingClientRect().width;
-    const h = 440;
+    const h = 300;
     compCanvas.width = w * window.devicePixelRatio;
     compCanvas.height = h * window.devicePixelRatio;
     cCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
     cCtx.clearRect(0, 0, w, h);
 
-    const cx = w / 2;
-    const cy = h / 2;
-    const R = Math.min(w, h) * 0.4;
+    const cx = w / 2, cy = h / 2, R = 100;
+    cCtx.beginPath(); cCtx.arc(cx, cy, R, 0, Math.PI * 2);
+    cCtx.fillStyle = "rgba(15, 23, 42, 0.9)"; cCtx.fill();
+    cCtx.strokeStyle = "rgba(56, 189, 248, 0.4)"; cCtx.lineWidth = 2; cCtx.stroke();
 
-    cCtx.beginPath();
-    cCtx.arc(cx, cy, R, 0, Math.PI * 2);
-    cCtx.fillStyle = "rgba(15, 23, 42, 0.9)";
-    cCtx.fill();
-    cCtx.lineWidth = 3;
-    cCtx.strokeStyle = "rgba(56, 189, 248, 0.4)";
-    cCtx.stroke();
+    cCtx.font = "bold 13px sans-serif"; cCtx.fillStyle = "#38bdf8"; cCtx.textAlign = "center";
+    cCtx.fillText("北 (N)", cx, cy - R + 18);
+    cCtx.fillText("南 (S)", cx, cy + R - 8);
+    cCtx.fillText("東 (E)", cx + R - 18, cy + 5);
+    cCtx.fillText("西 (W)", cx - R + 18, cy + 5);
 
-    cCtx.beginPath();
-    cCtx.moveTo(cx - R, cy); cCtx.lineTo(cx + R, cy);
-    cCtx.moveTo(cx, cy - R); cCtx.lineTo(cx + R, cy);
-    cCtx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-    cCtx.stroke();
+    let riseDeg = 90, setDeg = 270, col = "#34d399";
+    if (compSeason === "summer") { riseDeg = 69; setDeg = 291; col = "#ef4444"; }
+    if (compSeason === "winter") { riseDeg = 118; setDeg = 242; col = "#38bdf8"; }
 
-    cCtx.font = "bold 16px sans-serif";
-    cCtx.fillStyle = "#38bdf8";
-    cCtx.textAlign = "center";
-    cCtx.fillText("北 (N)", cx, cy - R + 25);
-    cCtx.fillText("南 (S)", cx, cy + R - 15);
-    cCtx.fillText("東 (E)", cx + R - 25, cy + 6);
-    cCtx.fillText("西 (W)", cx - R + 25, cy + 6);
-
-    let riseDeg = 90, setDeg = 270, color = "#34d399";
-    if (compSeason === "summer") { riseDeg = 69; setDeg = 291; color = "#ef4444"; }
-    if (compSeason === "winter") { riseDeg = 118; setDeg = 242; color = "#38bdf8"; }
-
-    const drawRay = (deg, label, isRise) => {
+    const drawRay = (deg, txt) => {
       const rad = (deg - 90) * Math.PI / 180;
-      const x = cx + Math.cos(rad) * (R - 35);
-      const y = cy + Math.sin(rad) * (R - 35);
-
-      cCtx.beginPath();
-      cCtx.moveTo(cx, cy);
-      cCtx.lineTo(x, y);
-      cCtx.lineWidth = 4;
-      cCtx.strokeStyle = color;
-      cCtx.stroke();
-
-      cCtx.beginPath();
-      cCtx.arc(x, y, 9, 0, Math.PI * 2);
-      cCtx.fillStyle = isRise ? "#fbbf24" : "#f97316";
-      cCtx.fill();
-
-      cCtx.fillStyle = "#fff";
-      cCtx.font = "bold 13px sans-serif";
-      cCtx.fillText(label, x + (x > cx ? 20 : -20), y + (y > cy ? 15 : -10));
+      const x = cx + Math.cos(rad) * (R - 25);
+      const y = cy + Math.sin(rad) * (R - 25);
+      cCtx.beginPath(); cCtx.moveTo(cx, cy); cCtx.lineTo(x, y);
+      cCtx.strokeStyle = col; cCtx.lineWidth = 3; cCtx.stroke();
+      cCtx.fillStyle = "#fff"; cCtx.fillText(txt, x, y + (y > cy ? 15 : -8));
     };
-
-    drawRay(riseDeg, `日出 (${riseDeg}°)`, true);
-    drawRay(setDeg, `日落 (${setDeg}°)`, false);
+    drawRay(riseDeg, "日出"); drawRay(setDeg, "日落");
   }
 
-  // --- 模組 5: 搶答系統 ---
+  // --- 搶答系統 ---
   function checkAnswer(btn, isCorrect, qId, expText) {
     const parent = document.getElementById(qId);
-    const btns = parent.querySelectorAll(".opt-btn");
-    btns.forEach(b => b.disabled = true);
-
+    parent.querySelectorAll(".opt-btn").forEach(b => b.disabled = true);
     const expBox = document.getElementById("exp-" + qId);
     expBox.style.display = "block";
 
@@ -1196,7 +1581,7 @@
     }
   }
 
-  // 碎紙花動畫
+  // 碎紙花
   const confettiC = document.getElementById("confettiCanvas");
   const cftCtx = confettiC.getContext("2d");
   let confettiPieces = [];
@@ -1205,14 +1590,14 @@
     confettiC.width = window.innerWidth;
     confettiC.height = window.innerHeight;
     confettiPieces = [];
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 70; i++) {
       confettiPieces.push({
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
-        vx: (Math.random() - 0.5) * 16,
-        vy: (Math.random() - 0.8) * 16,
+        vx: (Math.random() - 0.5) * 15,
+        vy: (Math.random() - 0.8) * 15,
         size: Math.random() * 8 + 4,
-        color: ["#38bdf8", "#fbbf24", "#ef4444", "#34d399", "#a855f7"][Math.floor(Math.random() * 5)],
+        color: ["#38bdf8", "#fbbf24", "#ef4444", "#34d399", "#c084fc"][Math.floor(Math.random() * 5)],
         rot: Math.random() * 360
       });
     }
@@ -1236,10 +1621,12 @@
   }
 
   window.onload = () => {
+    set11Scene("photo");
     resizeSphereCanvas();
     updateAngle(89);
     drawCompass();
     updateStats();
+    set13Lab("rainbow");
   };
 </script>
 </body>
