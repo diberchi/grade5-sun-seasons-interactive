@@ -311,10 +311,30 @@
   </nav>
 
   <div class="header-actions">
+    <button class="action-btn" onclick="openQrModal()" style="background: rgba(56, 189, 248, 0.15); border: 1px solid var(--primary); color: var(--primary); font-weight: 700;">📱 線上網址/掃描</button>
     <button class="action-btn" id="soundBtn" onclick="toggleSound()">🔊 音效開</button>
     <button class="action-btn" onclick="toggleFullscreen()">⛶ 全螢幕</button>
   </div>
 </header>
+
+<!-- QR Code 彈跳視窗 -->
+<div id="qrModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 20px;" onclick="if(event.target === this) closeQrModal()">
+  <div style="background: #0f172a; border: 2px solid #38bdf8; border-radius: 16px; padding: 26px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative;">
+    <button onclick="closeQrModal()" style="position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: #94a3b8; font-size: 1.6rem; cursor: pointer;">&times;</button>
+    <div style="font-size: 1.3rem; font-weight: 800; color: #38bdf8; margin-bottom: 6px;">📱 線上連網即時教學</div>
+    <div style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 18px;">學生 iPad、Chromebook、手機掃描即刻連線</div>
+    <div style="background: #ffffff; padding: 14px; border-radius: 12px; display: inline-block; margin-bottom: 16px;">
+      <img src="qrcode.svg" alt="線上教學網站 QR Code" style="width: 200px; height: 200px; display: block;">
+    </div>
+    <div style="font-size: 0.82rem; color: #cbd5e1; word-break: break-all; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.1);">
+      https://diberchi.github.io/grade5-sun-seasons-interactive/
+    </div>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+      <button onclick="copyUrl()" id="copyBtn" style="background: #0284c7; color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 700; cursor: pointer;">📋 複製網址</button>
+      <button onclick="closeQrModal()" style="background: #334155; color: #cbd5e1; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 700; cursor: pointer;">關閉</button>
+    </div>
+  </div>
+</div>
 
 <main>
   <!-- TAB 0: 單元首頁與概念地圖 -->
@@ -1618,6 +1638,26 @@
       }
     });
     if (alive) requestAnimationFrame(animateConfetti);
+  }
+
+  function openQrModal() {
+    const m = document.getElementById('qrModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closeQrModal() {
+    const m = document.getElementById('qrModal');
+    if (m) m.style.display = 'none';
+  }
+  function copyUrl() {
+    navigator.clipboard.writeText('https://diberchi.github.io/grade5-sun-seasons-interactive/').then(() => {
+      const btn = document.getElementById('copyBtn');
+      if (btn) {
+        btn.innerText = '✅ 複製成功！';
+        setTimeout(() => { btn.innerText = '📋 複製網址'; }, 2000);
+      }
+    }).catch(() => {
+      alert('網址：https://diberchi.github.io/grade5-sun-seasons-interactive/');
+    });
   }
 
   window.onload = () => {
