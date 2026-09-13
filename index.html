@@ -2185,7 +2185,7 @@
     drawOrbitView();
   }
 
-  // 1. 地球剖面與直射點移動動畫
+  // 1. 地球剖面與直射點移動動畫 (精確幾何聯動)
   function drawTropicProfile() {
     if (!tCtx) return;
     const w = tropicCanvas.parentElement.getBoundingClientRect().width;
@@ -2195,6 +2195,11 @@
     const cx = w * 0.58;
     const cy = h * 0.5;
     const R = Math.min(w * 0.3, 105);
+
+    // 當前直射緯度 (-23.5° ~ +23.5°)
+    const subsolarLat = 23.5 * Math.sin(orbitAngle * Math.PI / 180);
+    // 在太陽-地球連線剖面視圖中，地軸向太陽側傾斜的角度恰好等於當前直射緯度
+    const currentTiltRad = subsolarLat * Math.PI / 180;
 
     // (A) 太陽在左側，射入平行光
     const sunLeftX = 25;
@@ -2208,27 +2213,28 @@
     tCtx.arc(sunLeftX, cy, 40, 0, Math.PI * 2);
     tCtx.fill();
 
-    // 太陽平行光線
+    // 太陽平行輔助光線 (均勻分佈在水平直射光上下)
     for (let i = -3; i <= 3; i++) {
+      if (i === 0) continue; // 留給中央加粗紅色直射光
       const ly = cy + i * 28;
+      const hitX = cx - Math.sqrt(Math.max(0, R*R - (ly - cy)*(ly - cy)));
       tCtx.beginPath();
       tCtx.moveTo(sunLeftX + 35, ly);
-      tCtx.lineTo(cx - R - 6, ly);
+      tCtx.lineTo(hitX, ly);
       tCtx.strokeStyle = "rgba(251, 191, 36, 0.4)";
-      tCtx.lineWidth = 2;
+      tCtx.lineWidth = 1.8;
       tCtx.stroke();
 
       // 箭頭
-      drawArrowOnCurve(tCtx, cx - R - 15, ly, 0, "rgba(251, 191, 36, 0.7)");
+      drawArrowOnCurve(tCtx, hitX - 12, ly, 0, "rgba(251, 191, 36, 0.7)");
     }
     tCtx.restore();
 
-    // (B) 繪製傾斜地球 (地軸傾斜 23.5°)
-    const tiltRad = 23.5 * Math.PI / 180;
+    // (B) 繪製傾斜地球 (地軸隨公轉相對於太陽動態傾斜)
     tCtx.save();
     tCtx.translate(cx, cy);
 
-    // 地球本體球體
+    // 地球本體球體 (深藍海洋與大氣光暈)
     const earthGrad = tCtx.createRadialGradient(-R*0.3, -R*0.3, 10, 0, 0, R);
     earthGrad.addColorStop(0, "#38bdf8");
     earthGrad.addColorStop(0.7, "#0369a1");
@@ -2241,10 +2247,10 @@
     tCtx.strokeStyle = "rgba(255, 255, 255, 0.4)";
     tCtx.stroke();
 
-    // 旋轉至傾斜視角繪製緯線
-    tCtx.rotate(-tiltRad);
+    // 旋轉至當前迎光傾斜角度 (夏至向左傾斜 23.5°，冬至向右傾斜 23.5°，春秋分直立)
+    tCtx.rotate(-currentTiltRad);
 
-    // 地軸
+    // 地軸 (貫穿南北極)
     tCtx.beginPath();
     tCtx.moveTo(0, -R - 22);
     tCtx.lineTo(0, R + 22);
@@ -2259,52 +2265,54 @@
     tCtx.fillText("南極 (S)", 0, R + 34);
 
     // 輔助繪製緯線函式
-    const drawLatLine = (deg, label, color, isBold = false) => {
+    const drawLatLine = (deg, label, color, isHighlighted = false) => {
       const y = -R * Math.sin(deg * Math.PI / 180);
       const rAtY = R * Math.cos(deg * Math.PI / 180);
       tCtx.beginPath();
       tCtx.ellipse(0, y, rAtY, rAtY * 0.22, 0, 0, Math.PI * 2);
-      tCtx.lineWidth = isBold ? 2.8 : 1.5;
+      tCtx.lineWidth = isHighlighted ? 3.5 : 1.5;
       tCtx.strokeStyle = color;
       tCtx.stroke();
 
-      tCtx.font = (isBold ? "bold 13px" : "11px") + " sans-serif";
+      tCtx.font = (isHighlighted ? "bold 13px" : "11px") + " sans-serif";
       tCtx.fillStyle = color;
       tCtx.textAlign = "left";
       tCtx.fillText(label, rAtY + 6, y + 4);
     };
 
+    // 判斷當前哪條緯線正處於直射高亮狀態
+    const isSummerTropic = Math.abs(subsolarLat - 23.5) < 1.5;
+    const isEquator = Math.abs(subsolarLat) < 1.5;
+    const isWinterTropic = Math.abs(subsolarLat + 23.5) < 1.5;
+
     // 北回歸線 (23.5°N)
-    drawLatLine(23.5, "北回歸線 (23.5°N) ⭐嘉義", "#fde047", true);
+    drawLatLine(23.5, "北回歸線 (23.5°N) ⭐嘉義", isSummerTropic ? "#facc15" : "rgba(250, 204, 21, 0.7)", isSummerTropic);
     // 赤道 (0°)
-    drawLatLine(0, "赤道 (0°)", "#ffffff", false);
+    drawLatLine(0, "赤道 (0°)", isEquator ? "#ffffff" : "rgba(255, 255, 255, 0.6)", isEquator);
     // 南回歸線 (-23.5°S)
-    drawLatLine(-23.5, "南回歸線 (23.5°S)", "#93c5fd", true);
+    drawLatLine(-23.5, "南回歸線 (23.5°S)", isWinterTropic ? "#60a5fa" : "rgba(96, 165, 250, 0.7)", isWinterTropic);
 
     tCtx.restore();
 
-    // (C) 繪製直射光點 (Subsolar Point) 與標註
-    const subsolarLat = 23.5 * Math.sin(orbitAngle * Math.PI / 180);
-    // 直射光在地球表面面向左側 (Sun-facing side) 的位置
-    // 在非旋轉座標系下，直射光永遠是在 y = -R * sin(subsolarLat)
-    const directY = cy - R * Math.sin(subsolarLat * Math.PI / 180);
-    const directX = cx - Math.sqrt(Math.max(0, R*R - (directY - cy)*(directY - cy)));
+    // (C) 繪製直射光點 (Subsolar Point)：100% 精準咬合在地球迎光最前緣 (-R, 0)
+    const directX = cx - R;
+    const directY = cy;
 
-    // 醒目直射光束
+    // 醒目加粗紅色直射光束 (從太陽筆直水平射入)
     tCtx.save();
     tCtx.beginPath();
     tCtx.moveTo(sunLeftX + 35, directY);
     tCtx.lineTo(directX, directY);
-    tCtx.lineWidth = 4;
+    tCtx.lineWidth = 4.5;
     tCtx.strokeStyle = "#ef4444";
     tCtx.stroke();
 
-    // 直射點紅色標靶
+    // 直射點紅色標靶光芒
     tCtx.beginPath();
-    tCtx.arc(directX, directY, 8, 0, Math.PI * 2);
+    tCtx.arc(directX, directY, 9, 0, Math.PI * 2);
     tCtx.fillStyle = "#ef4444";
     tCtx.shadowColor = "#f87171";
-    tCtx.shadowBlur = 12;
+    tCtx.shadowBlur = 14;
     tCtx.fill();
 
     // 垂直直角記號 (90°)
@@ -2318,12 +2326,22 @@
     tCtx.textAlign = "right";
     tCtx.fillText("🎯 90°直射點", directX - 14, directY - 6);
 
-    // 如果正好在夏至 (北回歸線直射)：特別閃耀
-    if (Math.abs(subsolarLat - 23.5) < 1.2) {
+    // 如果夏至 (北回歸線直射)：特別閃耀「⭐ 臺灣嘉義正午立竿無影！」
+    if (isSummerTropic) {
       tCtx.font = "bold 15px sans-serif";
       tCtx.fillStyle = "#34d399";
       tCtx.textAlign = "left";
-      tCtx.fillText("⭐ 臺灣嘉義正午「立竿無影」！", cx + R + 10, directY + 5);
+      tCtx.fillText("⭐ 正直射北回歸線！臺灣嘉義正午「立竿無影」！", cx + R + 10, directY + 5);
+    } else if (isEquator) {
+      tCtx.font = "bold 14px sans-serif";
+      tCtx.fillStyle = "#ffffff";
+      tCtx.textAlign = "left";
+      tCtx.fillText("🌱 正直射赤道！全球晝夜平分各 12 小時", cx + R + 10, directY + 5);
+    } else if (isWinterTropic) {
+      tCtx.font = "bold 14px sans-serif";
+      tCtx.fillStyle = "#93c5fd";
+      tCtx.textAlign = "left";
+      tCtx.fillText("❄️ 正直射南回歸線！臺灣強烈斜射最冷・影最長", cx + R + 10, directY + 5);
     }
     tCtx.restore();
   }
